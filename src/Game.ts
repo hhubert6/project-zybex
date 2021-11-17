@@ -1,5 +1,5 @@
 export default class Game {
   constructor() {}
 
-  update() {}
+  update(deltaTime: number) {}
 }
