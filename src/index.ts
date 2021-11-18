@@ -4,17 +4,32 @@ import Engine from './Engine';
 import Controller from './Controller';
 
 const update = (deltaTime: number) => {
+  if (controller.left.active) {
+    game.world.player.moveLeft();
+  } else if (controller.right.active) {
+    game.world.player.moveRight();
+  }
+
+  if (controller.up.active) {
+    game.world.player.jump();
+    controller.up.active = false;
+  }
+
   game.update(deltaTime);
 };
 
 const render = () => {
-  display.renderColor('red');
+  display.clear();
+  display.drawRectangle(game.world.player);
   display.render();
 };
 
 const controller = new Controller();
-const display = new Display(document.querySelector('canvas')!);
 const game = new Game();
+const display = new Display(
+  document.querySelector('canvas')!,
+  ...game.world.dimensions,
+);
 const engine = new Engine(60, update, render);
 
 window.addEventListener('keydown', controller.handleKeyDownUp);
