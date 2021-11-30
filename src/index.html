@@ -7,15 +7,41 @@
     <title>Zybex</title>
 
     <style>
+      :root {
+        --canvas-width: 320;
+        --canvas-height: 192;
+        --canvas-ratio: calc(320 / 192);
+      }
+
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
       body {
         background: #000;
+        display: grid;
+        place-items: center;
+        height: 100vh;
       }
+
       canvas {
         border: 1px solid #eee;
+        object-fit: contain;
+        height: 90%;
+        width: auto;
+      }
+
+      @media screen and (max-aspect-ratio: 320 / 192) {
+        canvas {
+          height: auto;
+          width: 90%;
+        }
       }
     </style>
   </head>
   <body>
-    <canvas width="500" height="300"></canvas>
+    <canvas></canvas>
   </body>
 </html>

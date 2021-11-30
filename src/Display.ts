@@ -4,7 +4,7 @@ export default class Display {
   private ctx: CanvasRenderingContext2D;
   private buffer: CanvasRenderingContext2D;
 
-  constructor(canvas: HTMLCanvasElement, width: number, height: number) {
+  constructor(canvas: HTMLCanvasElement, [width, height]: Vector) {
     this.ctx = canvas.getContext('2d')!;
     this.buffer = document.createElement('canvas').getContext('2d')!;
 
@@ -22,9 +22,14 @@ export default class Display {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }
 
-  drawRectangle(rect: Drawable) {
-    this.buffer.fillStyle = rect.color;
-    this.buffer.fillRect(...rect.pos, ...rect.dimensions);
+  drawRectangle({ pos, color, dimensions }: Drawable) {
+    this.buffer.fillStyle = color;
+    this.buffer.fillRect(
+      pos[0] | 0,
+      pos[1] | 0,
+      dimensions[0] | 0,
+      dimensions[1] | 0,
+    );
   }
 
   render() {
