@@ -1,4 +1,5 @@
 import { Vector } from './types';
+import { gameMap } from './world/Map';
 
 export default class Display {
   private ctx: CanvasRenderingContext2D;
@@ -30,6 +31,15 @@ export default class Display {
       dimensions[0] | 0,
       dimensions[1] | 0,
     );
+  }
+
+  drawMap(map: gameMap) {
+    for (let i = 0; i < map.length; i++) {
+      const [x, y] = map[i].pos;
+      const [w, h] = map[i].dimensions;
+      this.buffer.fillStyle = map[i].color;
+      this.buffer.fillRect(x, y, w, h);
+    }
   }
 
   render() {

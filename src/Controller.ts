@@ -3,6 +3,7 @@ export default class Controller {
   left = new ButtonInput();
   right = new ButtonInput();
   up = new ButtonInput();
+  space = new ButtonInput();
 
   public handleKeyDownUp: (ev: KeyboardEvent) => void;
 
@@ -28,6 +29,10 @@ export default class Controller {
 
       case 'ArrowUp':
         this.up.setInput(down);
+        break;
+
+      case ' ':
+        this.space.setInput(down);
         break;
     }
   }

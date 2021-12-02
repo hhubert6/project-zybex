@@ -9,11 +9,18 @@ const update = (deltaTime: number) => {
   if (controller.up.active) game.world.player.moveUp();
   if (controller.down.active) game.world.player.moveDown();
 
+  
+  if (controller.space.active) {
+    game.togglePause();
+    controller.space.active = false;
+  }
+
   game.update(deltaTime);
 };
 
 const render = () => {
   display.clear();
+  display.drawMap(game.world.currentMapView);
   display.drawRectangle(game.world.player);
   display.render();
 };
