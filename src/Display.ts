@@ -1,4 +1,4 @@
-import { Vector } from './types';
+import { Vector } from './vector';
 import { gameMap } from './world/Map';
 
 export default class Display {

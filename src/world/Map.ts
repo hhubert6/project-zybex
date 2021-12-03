@@ -1,4 +1,4 @@
-import { Vector } from '../types';
+import { Vector } from '../vector';
 
 export interface MapElement {
   pos: Vector;
@@ -14,16 +14,16 @@ export const map: gameMap = [
   {
     pos: [100, 0],
     dimensions: [20, 10],
-    color: 'red',
+    color: 'blue',
   },
   {
     pos: [125, 0],
     dimensions: [20, 10],
-    color: 'red',
+    color: 'blue',
   },
   {
     pos: [225, 0],
     dimensions: [20, 30],
-    color: 'red',
+    color: 'blue',
   },
 ];

@@ -1,5 +1,5 @@
 import { Moveable } from './Moveable';
-import { Vector } from '../types';
+import { Vector } from '../vector';
 import Player from './Player';
 import { gameMap, map } from './Map';
 
@@ -19,7 +19,7 @@ export default class World {
     this.player.pos[1] = worldHeight / 2 - playerHeight / 2;
   }
 
-  update() {
+  updateMap() {
     this.currentMapView = this.map
       .filter(({ pos: [x] }) => x >= this.currentView - 100)
       .map((el) => ({
