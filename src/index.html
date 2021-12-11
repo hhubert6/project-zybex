@@ -8,11 +8,9 @@
 
     <style>
       :root {
-        --canvas-width: 320;
-        --canvas-height: 192;
-        --canvas-ratio: calc(320 / 192);
+        --canvas-width: 320px;
+        --canvas-height: 192px;
       }
-
       * {
         box-sizing: border-box;
         padding: 0;
@@ -29,16 +27,19 @@
       canvas {
         border: 1px solid #eee;
         object-fit: contain;
-        height: 90%;
-        width: auto;
+        /* height: 80%;
+        width: auto; */
+        height: var(--canvas-height);
+        width: var(--canvas-width);
+        transform: scale(3);
       }
 
-      @media screen and (max-aspect-ratio: 320 / 192) {
+      /* @media screen and (max-aspect-ratio: 320 / 192) {
         canvas {
           height: auto;
-          width: 90%;
+          width: 80%;
         }
-      }
+      } */
     </style>
   </head>
   <body>

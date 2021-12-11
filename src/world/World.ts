@@ -20,14 +20,11 @@ export default class World {
   }
 
   updateMap() {
-    // console.log(this.currentViewIndex, this.currentViewIndex + this.dimensions[1]);
-    // console.log();
-
     this.currentViewMap = this.map
       .filter(
         ({ pos: [x] }) =>
           x >= this.currentViewIndex - 100 &&
-          x <= this.currentViewIndex + this.dimensions[1],
+          x <= this.currentViewIndex + this.dimensions[0],
       )
       .map((el) => ({
         ...el,
@@ -40,7 +37,7 @@ export default class World {
     this.currentViewIndex += 1;
 
     // temporary
-    // if (this.currentViewIndex > 320) this.currentViewIndex = -320;
+    if (this.currentViewIndex > 2 * 320) this.currentViewIndex = -0;
   }
 
   collideObject(object: Moveable) {
