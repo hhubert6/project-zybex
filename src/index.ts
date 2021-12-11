@@ -9,7 +9,6 @@ const update = (deltaTime: number) => {
   if (controller.up.active) game.world.player.moveUp();
   if (controller.down.active) game.world.player.moveDown();
 
-  
   if (controller.space.active) {
     game.togglePause();
     controller.space.active = false;
@@ -20,7 +19,7 @@ const update = (deltaTime: number) => {
 
 const render = () => {
   display.clear();
-  display.drawMap(game.world.currentMapView);
+  display.drawMap(game.world.currentViewMap);
   display.drawRectangle(game.world.player);
   display.render();
 };

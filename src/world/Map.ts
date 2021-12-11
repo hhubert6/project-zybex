@@ -12,18 +12,18 @@ export type gameMap = Array<MapElement>;
  */
 export const map: gameMap = [
   {
-    pos: [100, 0],
+    pos: [500, 0],
     dimensions: [20, 10],
     color: 'blue',
   },
   {
-    pos: [125, 0],
+    pos: [625, 0],
     dimensions: [20, 10],
     color: 'blue',
   },
   {
-    pos: [225, 0],
-    dimensions: [20, 30],
+    pos: [725, 0],
+    dimensions: [100, 50],
     color: 'blue',
   },
 ];

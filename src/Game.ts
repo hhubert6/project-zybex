@@ -24,7 +24,7 @@ export default class Game {
     // handling map collisions
     this.world.player.colliding = MapCollider.collide(
       this.world.player,
-      this.world.currentMapView,
+      this.world.currentViewMap,
     );
   }
 

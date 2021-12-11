@@ -8,8 +8,8 @@ export default class World {
   dimensions: Vector = [320, 192];
   player = new Player();
   map: gameMap = map;
-  currentMapView: gameMap = [];
-  currentView = 0; // current map x position
+  currentViewMap: gameMap = [];
+  currentViewIndex = 0; // current map x position
 
   constructor() {
     const [playerWidth, playerHeight] = this.player.dimensions;
@@ -20,17 +20,27 @@ export default class World {
   }
 
   updateMap() {
-    this.currentMapView = this.map
-      .filter(({ pos: [x] }) => x >= this.currentView - 100)
+    // console.log(this.currentViewIndex, this.currentViewIndex + this.dimensions[1]);
+    // console.log();
+
+    this.currentViewMap = this.map
+      .filter(
+        ({ pos: [x] }) =>
+          x >= this.currentViewIndex - 100 &&
+          x <= this.currentViewIndex + this.dimensions[1],
+      )
       .map((el) => ({
         ...el,
         pos: [
-          el.pos[0] - this.currentView,
+          el.pos[0] - this.currentViewIndex,
           this.dimensions[1] - el.pos[1] - el.dimensions[1],
         ],
       }));
 
-    this.currentView += 0.5;
+    this.currentViewIndex += 1;
+
+    // temporary
+    // if (this.currentViewIndex > 320) this.currentViewIndex = -320;
   }
 
   collideObject(object: Moveable) {
