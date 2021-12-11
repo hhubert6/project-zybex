@@ -1,14 +1,15 @@
 import { Moveable } from './Moveable';
 import { Vector } from '../vector';
 import Player from './Player';
-import { gameMap, map } from './Map';
+import { map, MapElement } from './Map';
+import SpatialHashArray from '../SpatialHashArray';
 
 export default class World {
   friction = 0.8;
   dimensions: Vector = [320, 192];
   player = new Player();
-  map: gameMap = map;
-  currentViewMap: gameMap = [];
+  mapHashArray = new SpatialHashArray(50, 20);
+  currentViewMap: MapElement[] = [];
   currentViewIndex = 0; // current map x position
 
   constructor() {
@@ -17,22 +18,23 @@ export default class World {
 
     this.player.pos[0] = worldWidth / 2 - playerWidth / 2;
     this.player.pos[1] = worldHeight / 2 - playerHeight / 2;
+
+    for (let i = 0; i < map.length; i++) {
+      this.mapHashArray.addClient(map[i].pos[0], map[i].dimensions[0], map[i]);
+    }
   }
 
   updateMap() {
-    this.currentViewMap = this.map
-      .filter(
-        ({ pos: [x] }) =>
-          x >= this.currentViewIndex - 100 &&
-          x <= this.currentViewIndex + this.dimensions[0],
-      )
-      .map((el) => ({
-        ...el,
-        pos: [
-          el.pos[0] - this.currentViewIndex,
-          this.dimensions[1] - el.pos[1] - el.dimensions[1],
-        ],
-      }));
+    const resolvePosition = ({ pos, dimensions }: MapElement): Vector => {
+      return [
+        pos[0] - this.currentViewIndex,
+        this.dimensions[1] - pos[1] - dimensions[1],
+      ];
+    };
+
+    this.currentViewMap = this.mapHashArray
+      .getInRange(this.currentViewIndex, this.dimensions[0])
+      .map((el) => ({ ...el, pos: resolvePosition(el) }));
 
     this.currentViewIndex += 1;
 
