@@ -1,9 +1,16 @@
 import MapCollider from './colliders/MapCollider';
+import { map } from './world/map';
 import World from './world/World';
 
 export default class Game {
-  world = new World();
+  world: World;
+  mapCollider: MapCollider;
   pause = false;
+
+  constructor(map: map) {
+    this.world = new World(map);
+    this.mapCollider = new MapCollider(map.types);
+  }
 
   update(deltaTime: number) {
     if (this.pause) return;
@@ -19,10 +26,10 @@ export default class Game {
     this.world.player.velocity[1] *= this.world.friction;
 
     // handling world boundings collision
-    this.world.collideObject(this.world.player);
+    this.world.collidePlayer(this.world.player);
 
     // handling map collisions
-    this.world.player.colliding = MapCollider.collide(
+    this.world.player.colliding = this.mapCollider.collide(
       this.world.player,
       this.world.currentViewMap,
     );

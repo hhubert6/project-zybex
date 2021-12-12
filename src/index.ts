@@ -2,6 +2,7 @@ import Display from './Display';
 import Game from './Game';
 import Engine from './Engine';
 import Controller from './Controller';
+import map from './assets/arcturus-map.json';
 
 const update = (deltaTime: number) => {
   if (controller.left.active) game.world.player.moveLeft();
@@ -25,10 +26,11 @@ const render = () => {
 };
 
 const controller = new Controller();
-const game = new Game();
+const game = new Game(map);
 const display = new Display(
   document.querySelector('canvas')!,
   game.world.dimensions,
+  map.types,
 );
 const engine = new Engine(60, update, render);
 

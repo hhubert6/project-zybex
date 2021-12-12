@@ -1,35 +1,46 @@
-import { Moveable } from './Moveable';
 import { Vector } from '../vector';
 import Player from './Player';
-import { mapElement } from './mapElement';
-import map from '../assets/arcturus-map.json';
+import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
 
 export default class World {
   friction = 0.8;
   dimensions: Vector = [320, 192];
+
   player = new Player();
-  mapHashArray = new SpatialHashArray(50, 20);
+
+  mapHashArray: SpatialHashArray;
+  mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
   currentViewIndex = 0; // current map x position
 
-  constructor() {
+  constructor(map: map) {
     const [playerWidth, playerHeight] = this.player.dimensions;
     const [worldWidth, worldHeight] = this.dimensions;
 
     this.player.pos[0] = worldWidth / 2 - playerWidth / 2;
     this.player.pos[1] = worldHeight / 2 - playerHeight / 2;
 
-    for (let i = 0; i < map.length; i++) {
-      this.mapHashArray.addClient(map[i].pos[0], map[i].dimensions[0], map[i]);
+    this.mapHashArray = new SpatialHashArray(100, Math.ceil(map.width / 100));
+    this.mapElementTypes = map.types;
+    this.setupMap(map);
+  }
+
+  setupMap({ elements, types }: map) {
+    for (let i = 0; i < elements.length; i++) {
+      this.mapHashArray.addClient(
+        elements[i].pos[0],
+        types[elements[i].type].dimensions[0],
+        elements[i],
+      );
     }
   }
 
   updateMap() {
-    const resolvePosition = ({ pos, dimensions }: mapElement): Vector => {
+    const resolvePosition = ({ pos, type }: mapElement): Vector => {
       return [
         pos[0] - this.currentViewIndex,
-        this.dimensions[1] - pos[1] - dimensions[1],
+        this.dimensions[1] - pos[1] - this.mapElementTypes[type].dimensions[1],
       ];
     };
 
@@ -40,10 +51,10 @@ export default class World {
     this.currentViewIndex += 1;
 
     // temporary
-    if (this.currentViewIndex > 2 * 320) this.currentViewIndex = -0;
+    if (this.currentViewIndex >= 2 * 320) this.currentViewIndex = -0;
   }
 
-  collideObject(object: Moveable) {
+  collidePlayer(object: Player) {
     for (let i = 0; i < 2; i++) {
       if (object.pos[i] <= 0) {
         object.pos[i] = 0;

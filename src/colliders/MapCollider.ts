@@ -1,12 +1,15 @@
-import { mapElement } from '../world/mapElement';
+import { Vector } from '../vector';
+import { mapElement, mapElementType, mapElementTypes } from '../world/map';
 import { getBoundings, Moveable } from '../world/Moveable';
 
 export default class MapCollider {
-  static collide(player: Moveable, objects: mapElement[]): boolean {
+  constructor(private mapElementTypes: mapElementTypes) {}
+
+  collide(player: Moveable, mapObjects: mapElement[]): boolean {
     let collisionDetected = false;
 
-    for (let i = 0; i < objects.length; i++) {
-      if (this.collideObject(player, objects[i])) {
+    for (let i = 0; i < mapObjects.length; i++) {
+      if (this.collideObject(player, mapObjects[i])) {
         collisionDetected = true;
         break;
       }
@@ -15,7 +18,12 @@ export default class MapCollider {
     return collisionDetected;
   }
 
-  private static collideObject(player: Moveable, object: mapElement): boolean {
+  private collideObject(player: Moveable, { type, pos }: mapElement): boolean {
+    const object: Moveable = {
+      pos: pos as Vector,
+      dimensions: this.mapElementTypes[type].dimensions as Vector,
+    };
+
     const [playerLeft, playerRight, playerTop, playerBottom] = getBoundings(player);
     const [objectLeft, objectRight, objectTop, objectBottom] = getBoundings(object);
 

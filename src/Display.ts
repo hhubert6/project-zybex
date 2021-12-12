@@ -1,11 +1,15 @@
 import { Vector } from './vector';
-import { mapElement } from './world/mapElement';
+import { mapElement, mapElementTypes } from './world/map';
 
 export default class Display {
   private ctx: CanvasRenderingContext2D;
   private buffer: CanvasRenderingContext2D;
 
-  constructor(canvas: HTMLCanvasElement, [width, height]: Vector) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    [width, height]: Vector,
+    private types: mapElementTypes,
+  ) {
     this.ctx = canvas.getContext('2d')!;
     this.buffer = document.createElement('canvas').getContext('2d')!;
 
@@ -36,8 +40,9 @@ export default class Display {
   drawMap(map: mapElement[]) {
     for (let i = 0; i < map.length; i++) {
       const [x, y] = map[i].pos;
-      const [w, h] = map[i].dimensions;
-      this.buffer.fillStyle = map[i].color;
+      const [w, h] = this.types[map[i].type].dimensions;
+
+      this.buffer.fillStyle = 'blue';
       this.buffer.fillRect(x, y, w, h);
     }
   }

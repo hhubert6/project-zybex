@@ -1,17 +1,27 @@
-[
-  {
-    "pos": [320, 0],
-    "dimensions": [20, 10],
-    "color": "blue"
+{
+  "width": 960,
+  "types": {
+    "ground": {
+      "spritePos": [0, 0],
+      "dimensions": [35, 6]
+    },
+    "mushroom": {
+      "spritePos": [35, 0],
+      "dimensions": [70, 36]
+    }
   },
-  {
-    "pos": [425, 0],
-    "dimensions": [20, 10],
-    "color": "blue"
-  },
-  {
-    "pos": [525, 0],
-    "dimensions": [100, 50],
-    "color": "blue"
-  }
-]
+  "elements": [
+    {
+      "type": "ground",
+      "pos": [320, 0]
+    },
+    {
+      "type": "ground",
+      "pos": [425, 0]
+    },
+    {
+      "type": "mushroom",
+      "pos": [525, 0]
+    }
+  ]
+}
