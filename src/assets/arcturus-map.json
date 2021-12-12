@@ -1,0 +1,17 @@
+[
+  {
+    "pos": [320, 0],
+    "dimensions": [20, 10],
+    "color": "blue"
+  },
+  {
+    "pos": [425, 0],
+    "dimensions": [20, 10],
+    "color": "blue"
+  },
+  {
+    "pos": [525, 0],
+    "dimensions": [100, 50],
+    "color": "blue"
+  }
+]

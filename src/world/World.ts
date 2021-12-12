@@ -1,7 +1,8 @@
 import { Moveable } from './Moveable';
 import { Vector } from '../vector';
 import Player from './Player';
-import { map, MapElement } from './Map';
+import { mapElement } from './mapElement';
+import map from '../assets/arcturus-map.json';
 import SpatialHashArray from '../SpatialHashArray';
 
 export default class World {
@@ -9,7 +10,7 @@ export default class World {
   dimensions: Vector = [320, 192];
   player = new Player();
   mapHashArray = new SpatialHashArray(50, 20);
-  currentViewMap: MapElement[] = [];
+  currentViewMap: mapElement[] = [];
   currentViewIndex = 0; // current map x position
 
   constructor() {
@@ -25,7 +26,7 @@ export default class World {
   }
 
   updateMap() {
-    const resolvePosition = ({ pos, dimensions }: MapElement): Vector => {
+    const resolvePosition = ({ pos, dimensions }: mapElement): Vector => {
       return [
         pos[0] - this.currentViewIndex,
         this.dimensions[1] - pos[1] - dimensions[1],

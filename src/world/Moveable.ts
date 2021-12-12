@@ -1,5 +1,5 @@
 import { Vector } from '../vector';
-import { MapElement } from './Map';
+import { mapElement } from './mapElement';
 
 export interface Moveable {
   pos: Vector;
@@ -7,7 +7,7 @@ export interface Moveable {
   dimensions: Vector;
 }
 
-export const getBoundings = ({ pos, dimensions }: Moveable | MapElement) => {
+export const getBoundings = ({ pos, dimensions }: Moveable | mapElement) => {
   const [x, y] = pos;
   const [w, h] = dimensions;
 

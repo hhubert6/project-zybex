@@ -1,5 +1,5 @@
 import { Vector } from './vector';
-import { MapElement } from './world/Map';
+import { mapElement } from './world/mapElement';
 
 export default class Display {
   private ctx: CanvasRenderingContext2D;
@@ -33,7 +33,7 @@ export default class Display {
     );
   }
 
-  drawMap(map: MapElement[]) {
+  drawMap(map: mapElement[]) {
     for (let i = 0; i < map.length; i++) {
       const [x, y] = map[i].pos;
       const [w, h] = map[i].dimensions;
