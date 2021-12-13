@@ -46,7 +46,7 @@ export default class World {
     }
   }
 
-  setupEnemies({ elements, types }: enemies) {
+  setupEnemies({ elements }: enemies) {
     for (let i = 0; i < elements.length; i++) {
       this.enemiesHashArray.addClient(elements[i].activationPoint, 1, elements[i]);
     }
@@ -62,7 +62,7 @@ export default class World {
 
     this.currentViewMap = this.mapHashArray
       .getInRange(this.currentViewIndex, this.dimensions[0])
-      .map((el) => ({ ...el, pos: resolvePosition(el) }));
+      .map<mapElement>(({ data }) => ({ ...data, pos: resolvePosition(data) }));
 
     this.currentViewIndex += 1;
 
@@ -72,22 +72,22 @@ export default class World {
 
   updateEnemies() {
     const currentPoint = this.currentViewIndex + this.dimensions[0];
-    const enemiesToActivate: enemy[] = this.enemiesHashArray
+    const enemiesToActivate = this.enemiesHashArray
       .getInRange(currentPoint, 1)
-      .filter(({ activationPoint }) => currentPoint >= activationPoint);
+      .filter(({ data: { activationPoint } }) => currentPoint >= activationPoint);
 
     for (let i = 0; i < enemiesToActivate.length; i++) {
-      // todo (data / client conflict)
-      // this.enemiesHashArray.removeClient(enemiesToActivate[i]);
-
-      let enemy = this.enemiesPool.pop();
-
-      if (enemy) {
-        enemy.typeName = enemiesToActivate[i].type;
-        enemy.type = this.enemyTypes[enemy.typeName];
-        enemy.behaviour = enemiesToActivate[i].behaviour;
-      }
+      this.enemiesHashArray.removeClient(enemiesToActivate[i]);
+      this.activateEnemy(enemiesToActivate[i].data);
     }
+
+    this.removeFinishedEnemies();
+
+    for (let i = 0; i < this.currentEnemies.length; i++) {
+      this.currentEnemies[i].update();
+    }
+
+    console.log(this.currentEnemies.length, this.enemiesPool.length);
   }
 
   collidePlayer(object: Player) {
@@ -99,6 +99,44 @@ export default class World {
         object.pos[i] = this.dimensions[i] - object.dimensions[i];
         object.velocity[i] = 0;
       }
+    }
+  }
+
+  collideEnemies(objects: Enemy[]) {
+    for (let i = 0; i < objects.length; i++) {
+      if (objects[i].pos[0] + objects[i].type.dimensions[0] <= 0) {
+        objects[i].finished = true;
+      }
+    }
+  }
+
+  private activateEnemy({ type, startPos, behaviour }: enemy) {
+    let enemy = this.enemiesPool.pop();
+
+    if (enemy) {
+      enemy.typeName = type;
+      enemy.type = this.enemyTypes[type];
+      enemy.pos = startPos as Vector;
+      enemy.behaviour = behaviour;
+      enemy.finished = false;
+    } else {
+      enemy = new Enemy(type, this.enemyTypes[type], startPos as Vector, behaviour);
+    }
+
+    this.currentEnemies.push(enemy);
+  }
+
+  private removeFinishedEnemies() {
+    const removalIndices = [];
+
+    for (let i = 0; i < this.currentEnemies.length; i++) {
+      if (this.currentEnemies[i].finished) {
+        removalIndices.push(i);
+      }
+    }
+
+    while (removalIndices.length) {
+      this.enemiesPool.push(...this.currentEnemies.splice(removalIndices.pop()!, 1));
     }
   }
 }

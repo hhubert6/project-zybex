@@ -22,7 +22,8 @@ export interface enemies {
 }
 
 export class Enemy {
-  velocity: Vector = [0, 0];
+  velocity: Vector = [-2, 0];
+  finished = false;
 
   constructor(
     public typeName: string,
@@ -31,5 +32,8 @@ export class Enemy {
     public behaviour: number,
   ) {}
 
-  update() {}
+  update() {
+    this.pos[0] += this.velocity[0];
+    this.pos[1] += this.velocity[1];
+  }
 }

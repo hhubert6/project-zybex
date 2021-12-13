@@ -1,4 +1,5 @@
 import MapCollider from './colliders/MapCollider';
+import { enemies } from './world/enemies';
 import { map } from './world/map';
 import World from './world/World';
 
@@ -7,8 +8,8 @@ export default class Game {
   mapCollider: MapCollider;
   pause = false;
 
-  constructor(map: map) {
-    this.world = new World(map);
+  constructor(map: map, enemies: enemies) {
+    this.world = new World(map, enemies);
     this.mapCollider = new MapCollider(map.types);
   }
 
@@ -17,6 +18,9 @@ export default class Game {
 
     // updating current world map
     this.world.updateMap();
+
+    // updating enemies state
+    this.world.updateEnemies();
 
     // updating player state
     this.world.player.update(deltaTime);
@@ -27,6 +31,7 @@ export default class Game {
 
     // handling world boundings collision
     this.world.collidePlayer(this.world.player);
+    this.world.collideEnemies(this.world.currentEnemies);
 
     // handling map collisions
     this.world.player.colliding = this.mapCollider.collide(

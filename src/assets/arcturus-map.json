@@ -14,8 +14,8 @@
       "dimensions": [35, 23]
     },
     "head2": {
-      "spritePos": [0, 0],
-      "dimensions": [0, 0]
+      "spritePos": [35, 66],
+      "dimensions": [35, 16]
     },
     "head1-base": {
       "spritePos": [0, 6],
@@ -26,20 +26,20 @@
       "dimensions": [35, 8]
     },
     "pillar": {
-      "spritePos": [0, 0],
-      "dimensions": [0, 0]
+      "spritePos": [0, 22],
+      "dimensions": [35, 23]
     },
     "deep-ground": {
-      "spritePos": [0, 0],
-      "dimensions": [0, 0]
+      "spritePos": [0, 68],
+      "dimensions": [35, 16]
     },
     "slope-left": {
-      "spritePos": [0, 0],
-      "dimensions": [0, 0]
+      "spritePos": [35, 36],
+      "dimensions": [35, 30]
     },
     "slope-right": {
-      "spritePos": [0, 0],
-      "dimensions": [0, 0]
+      "spritePos": [70, 36],
+      "dimensions": [35, 30]
     }
   },
   "elements": [

@@ -1,0 +1,22 @@
+{
+  "types": {
+    "square-spinner": {
+      "spritePos": [],
+      "dimensions": [20, 20]
+    }
+  },
+  "elements": [
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 320,
+      "startPos": [320, 20]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 520,
+      "startPos": [320, 20]
+    }
+  ]
+}

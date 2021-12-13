@@ -5,6 +5,7 @@ import Engine from './Engine';
 import Controller from './Controller';
 
 import map from './assets/arcturus-map.json';
+import enemies from './assets/arcturus-enemies.json';
 const bgImg = require('./assets/background.png');
 
 const update = (deltaTime: number) => {
@@ -24,13 +25,14 @@ const update = (deltaTime: number) => {
 const render = () => {
   display.clear();
   display.drawMap(assetsManager.bgImg!, game.world.currentViewMap);
+  display.drawEnemies(game.world.currentEnemies);
   display.drawRectangle(game.world.player);
   display.render();
 };
 
 const assetsManager = new AssetsManager();
 const controller = new Controller();
-const game = new Game(map);
+const game = new Game(map, enemies);
 const display = new Display(
   document.querySelector('canvas')!,
   game.world.dimensions,

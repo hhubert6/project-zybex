@@ -25,18 +25,20 @@ export default class SpatialHashArray {
     }
   }
 
-  getInRange(xPos: number, width: number): any[] {
+  getInRange(xPos: number, width: number): client[] {
     const x1 = this.getCellIndex(xPos);
     const x2 = this.getCellIndex(xPos + width);
 
-    const clients: any[] = [];
+    if (x2 >= this.cells.length) return [];
+
+    const clients: client[] = [];
 
     for (let x = x1, xn = x2; x <= xn; x++) {
-      clients.push(...Array.from(this.cells[x]).map(({ data }) => data));
+      clients.push(...Array.from(this.cells[x]));
     }
 
     return clients.reduce(
-      (acc: any[], v) => (acc.find((a) => a === v) ? acc : [...acc, v]),
+      (acc: client[], v) => (acc.find((a) => a === v) ? acc : [...acc, v]),
       [],
     );
   }

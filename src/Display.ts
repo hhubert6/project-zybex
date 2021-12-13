@@ -1,4 +1,5 @@
 import { Vector } from './vector';
+import { Enemy } from './world/enemies';
 import { mapElement, mapElementTypes } from './world/map';
 
 export default class Display {
@@ -43,7 +44,19 @@ export default class Display {
       const [w, h] = this.types[map[i].type].dimensions;
       const [dx, dy] = map[i].pos;
 
-      this.buffer.drawImage(img, sx, sy, w, h, dx, dy, w, h);
+      this.buffer.drawImage(img, sx, sy, w, h, dx | 0, dy | 0, w, h);
+    }
+  }
+
+  drawEnemies(enemies: Enemy[]) {
+    for (let i = 0; i < enemies.length; i++) {
+      const [sx, sy] = enemies[i].type.spritePos;
+      const [w, h] = enemies[i].type.dimensions;
+      const [dx, dy] = enemies[i].pos;
+
+      this.buffer.fillStyle = 'orange';
+
+      this.buffer.fillRect(dx | 0, dy | 0, w, h);
     }
   }
 
