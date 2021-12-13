@@ -37,13 +37,13 @@ export default class Display {
     );
   }
 
-  drawMap(map: mapElement[]) {
+  drawMap(img: HTMLImageElement, map: mapElement[]) {
     for (let i = 0; i < map.length; i++) {
-      const [x, y] = map[i].pos;
+      const [sx, sy] = this.types[map[i].type].spritePos;
       const [w, h] = this.types[map[i].type].dimensions;
+      const [dx, dy] = map[i].pos;
 
-      this.buffer.fillStyle = 'blue';
-      this.buffer.fillRect(x, y, w, h);
+      this.buffer.drawImage(img, sx, sy, w, h, dx, dy, w, h);
     }
   }
 

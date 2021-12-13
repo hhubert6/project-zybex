@@ -1,8 +1,11 @@
+import AssetsManager from './AssetsManager';
 import Display from './Display';
 import Game from './Game';
 import Engine from './Engine';
 import Controller from './Controller';
+
 import map from './assets/arcturus-map.json';
+const bgImg = require('./assets/background.png');
 
 const update = (deltaTime: number) => {
   if (controller.left.active) game.world.player.moveLeft();
@@ -20,11 +23,12 @@ const update = (deltaTime: number) => {
 
 const render = () => {
   display.clear();
-  display.drawMap(game.world.currentViewMap);
+  display.drawMap(assetsManager.bgImg!, game.world.currentViewMap);
   display.drawRectangle(game.world.player);
   display.render();
 };
 
+const assetsManager = new AssetsManager();
 const controller = new Controller();
 const game = new Game(map);
 const display = new Display(
@@ -37,4 +41,8 @@ const engine = new Engine(60, update, render);
 window.addEventListener('keydown', controller.handleKeyDownUp);
 window.addEventListener('keyup', controller.handleKeyDownUp);
 
-engine.start();
+(async () => {
+  assetsManager.bgImg = await assetsManager.loadImage(bgImg);
+
+  engine.start();
+})();

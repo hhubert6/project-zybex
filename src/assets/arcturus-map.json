@@ -8,20 +8,120 @@
     "mushroom": {
       "spritePos": [35, 0],
       "dimensions": [70, 36]
+    },
+    "head1": {
+      "spritePos": [0, 45],
+      "dimensions": [35, 23]
+    },
+    "head2": {
+      "spritePos": [0, 0],
+      "dimensions": [0, 0]
+    },
+    "head1-base": {
+      "spritePos": [0, 6],
+      "dimensions": [35, 8]
+    },
+    "tower-segment": {
+      "spritePos": [0, 14],
+      "dimensions": [35, 8]
+    },
+    "pillar": {
+      "spritePos": [0, 0],
+      "dimensions": [0, 0]
+    },
+    "deep-ground": {
+      "spritePos": [0, 0],
+      "dimensions": [0, 0]
+    },
+    "slope-left": {
+      "spritePos": [0, 0],
+      "dimensions": [0, 0]
+    },
+    "slope-right": {
+      "spritePos": [0, 0],
+      "dimensions": [0, 0]
     }
   },
   "elements": [
     {
       "type": "ground",
-      "pos": [320, 0]
+      "pos": [320, -1]
+    },
+    {
+      "type": "head1-base",
+      "pos": [355, -1]
+    },
+    {
+      "type": "head1",
+      "pos": [355, 7]
     },
     {
       "type": "ground",
-      "pos": [425, 0]
+      "pos": [390, -1]
     },
     {
-      "type": "mushroom",
-      "pos": [525, 0]
+      "type": "head1-base",
+      "pos": [425, -1]
+    },
+    {
+      "type": "head1",
+      "pos": [425, 7]
+    },
+    {
+      "type": "ground",
+      "pos": [460, -1]
+    },
+    {
+      "type": "ground",
+      "pos": [495, -1]
+    },
+    {
+      "type": "head1-base",
+      "pos": [530, -1]
+    },
+    {
+      "type": "head1",
+      "pos": [530, 7]
+    },
+    {
+      "type": "head1-base",
+      "pos": [565, -1]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 7]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 15]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 23]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 31]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 39]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 47]
+    },
+    {
+      "type": "tower-segment",
+      "pos": [565, 55]
+    },
+    {
+      "type": "head1-base",
+      "pos": [565, 63]
+    },
+    {
+      "type": "head1",
+      "pos": [565, 71]
     }
   ]
 }

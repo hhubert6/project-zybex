@@ -19,6 +19,7 @@ export default class MapCollider {
   }
 
   private collideObject(player: Moveable, { type, pos }: mapElement): boolean {
+    if (type === 'ground') return false;
     const object: Moveable = {
       pos: pos as Vector,
       dimensions: this.mapElementTypes[type].dimensions as Vector,

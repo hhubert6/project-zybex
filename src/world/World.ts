@@ -21,7 +21,7 @@ export default class World {
     this.player.pos[0] = worldWidth / 2 - playerWidth / 2;
     this.player.pos[1] = worldHeight / 2 - playerHeight / 2;
 
-    this.mapHashArray = new SpatialHashArray(100, Math.ceil(map.width / 100));
+    this.mapHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
     this.mapElementTypes = map.types;
     this.setupMap(map);
   }
