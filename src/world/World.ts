@@ -2,6 +2,7 @@ import { Vector } from '../vector';
 import Player from './Player';
 import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
+import { enemies, enemy, Enemy, enemyTypes } from './enemies';
 
 export default class World {
   friction = 0.8;
@@ -9,12 +10,17 @@ export default class World {
 
   player = new Player();
 
+  enemiesHashArray: SpatialHashArray;
+  enemyTypes: enemyTypes;
+  currentEnemies: Enemy[] = [];
+  enemiesPool: Enemy[] = [];
+
   mapHashArray: SpatialHashArray;
   mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
   currentViewIndex = 0; // current map x position
 
-  constructor(map: map) {
+  constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
     const [worldWidth, worldHeight] = this.dimensions;
 
@@ -24,6 +30,10 @@ export default class World {
     this.mapHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
     this.mapElementTypes = map.types;
     this.setupMap(map);
+
+    this.enemiesHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
+    this.enemyTypes = enemies.types;
+    this.setupEnemies(enemies);
   }
 
   setupMap({ elements, types }: map) {
@@ -33,6 +43,12 @@ export default class World {
         types[elements[i].type].dimensions[0],
         elements[i],
       );
+    }
+  }
+
+  setupEnemies({ elements, types }: enemies) {
+    for (let i = 0; i < elements.length; i++) {
+      this.enemiesHashArray.addClient(elements[i].activationPoint, 1, elements[i]);
     }
   }
 
@@ -52,6 +68,26 @@ export default class World {
 
     // temporary
     if (this.currentViewIndex >= 2 * 320) this.currentViewIndex = -0;
+  }
+
+  updateEnemies() {
+    const currentPoint = this.currentViewIndex + this.dimensions[0];
+    const enemiesToActivate: enemy[] = this.enemiesHashArray
+      .getInRange(currentPoint, 1)
+      .filter(({ activationPoint }) => currentPoint >= activationPoint);
+
+    for (let i = 0; i < enemiesToActivate.length; i++) {
+      // todo (data / client conflict)
+      // this.enemiesHashArray.removeClient(enemiesToActivate[i]);
+
+      let enemy = this.enemiesPool.pop();
+
+      if (enemy) {
+        enemy.typeName = enemiesToActivate[i].type;
+        enemy.type = this.enemyTypes[enemy.typeName];
+        enemy.behaviour = enemiesToActivate[i].behaviour;
+      }
+    }
   }
 
   collidePlayer(object: Player) {
