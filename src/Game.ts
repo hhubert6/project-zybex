@@ -4,8 +4,8 @@ import { map } from './world/map';
 import World from './world/World';
 
 export default class Game {
-  world: World;
-  mapCollider: MapCollider;
+  private readonly mapCollider: MapCollider;
+  readonly world: World;
   pause = false;
 
   constructor(map: map, enemies: enemies) {

@@ -3,7 +3,7 @@ import Player from './Player';
 import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
 import { enemies, enemy, Enemy, enemyTypes } from './enemies';
-import { bullet, bulletType } from './Shooter';
+import { bullet } from './Shooter';
 
 export default class World {
   friction = 0.8;
@@ -11,17 +11,17 @@ export default class World {
 
   player = new Player();
 
-  enemiesHashArray: SpatialHashArray;
-  enemyTypes: enemyTypes;
+  private readonly enemiesHashArray: SpatialHashArray;
+  private readonly enemyTypes: enemyTypes;
   currentEnemies: Enemy[] = [];
   enemiesPool: Enemy[] = [];
 
-  mapHashArray: SpatialHashArray;
-  mapElementTypes: mapElementTypes;
+  private readonly mapHashArray: SpatialHashArray;
+  private readonly mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
   currentViewIndex = 0 * 320; // current map x position
 
-  bulletsPool: bullet[] = [];
+  private bulletsPool: bullet[] = [];
 
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
@@ -122,6 +122,7 @@ export default class World {
         this.enemyTypes[type],
         startPos as Vector,
         behaviour,
+        this.bulletsPool,
       );
     }
 

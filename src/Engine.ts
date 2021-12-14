@@ -1,11 +1,15 @@
 export default class Engine {
   private animationRequestFrameId: number | null = null;
-  private frameTime: number;
+  private readonly frameTime: number;
   private accumulatedTime = 0;
   private lastTime = 0;
   private updated = false;
 
-  constructor(fps: number, private update: () => void, private render: () => void) {
+  constructor(
+    fps: number,
+    private readonly update: () => void,
+    private readonly render: () => void,
+  ) {
     this.frameTime = 1000 / fps;
   }
 

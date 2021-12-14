@@ -1,5 +1,6 @@
 import { Vector } from '../vector';
 import { Moveable } from './Moveable';
+import { bullet, EnemyShooter } from './Shooter';
 
 export interface enemyType {
   spritePos: number[];
@@ -30,13 +31,16 @@ export class Enemy implements Moveable {
   private health = 4;
   private timeCounter = 0;
   private moveStage = 1;
+  private shooter: EnemyShooter;
 
   constructor(
     public typeName: string,
     type: enemyType,
     public pos: Vector,
     public behaviour: number,
+    bulletsPool: bullet[],
   ) {
+    this.shooter = new EnemyShooter(60, this.pos, bulletsPool);
     this.spritePos = type.spritePos as Vector;
     this.dimensions = type.dimensions as Vector;
 
@@ -98,6 +102,8 @@ export class Enemy implements Moveable {
   }
 
   update() {
+    this.shooter.update();
+
     switch (this.typeName) {
       case 'ship-spinner':
         this.updateShipSpinner();

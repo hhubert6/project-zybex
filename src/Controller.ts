@@ -5,7 +5,7 @@ export default class Controller {
   up = new ButtonInput();
   space = new ButtonInput();
 
-  handleKeyDownUp: (ev: KeyboardEvent) => void;
+  readonly handleKeyDownUp: (ev: KeyboardEvent) => void;
 
   constructor() {
     this.handleKeyDownUp = (ev) => this.keyDownUp(ev);

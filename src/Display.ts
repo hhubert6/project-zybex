@@ -9,13 +9,13 @@ interface Drawable {
 }
 
 export default class Display {
-  private ctx: CanvasRenderingContext2D;
-  private buffer: CanvasRenderingContext2D;
+  private readonly ctx: CanvasRenderingContext2D;
+  private readonly buffer: CanvasRenderingContext2D;
 
   constructor(
     canvas: HTMLCanvasElement,
     [width, height]: Vector,
-    private types: mapElementTypes,
+    private readonly mapTypes: mapElementTypes,
   ) {
     this.ctx = canvas.getContext('2d')!;
     this.buffer = document.createElement('canvas').getContext('2d')!;
@@ -46,8 +46,8 @@ export default class Display {
 
   drawMap(img: HTMLImageElement, map: mapElement[]) {
     for (let i = 0; i < map.length; i++) {
-      const [sx, sy] = this.types[map[i].type].spritePos;
-      const [w, h] = this.types[map[i].type].dimensions;
+      const [sx, sy] = this.mapTypes[map[i].type].spritePos;
+      const [w, h] = this.mapTypes[map[i].type].dimensions;
       const [dx, dy] = map[i].pos;
 
       this.buffer.drawImage(img, sx, sy, w, h, dx | 0, dy | 0, w, h);

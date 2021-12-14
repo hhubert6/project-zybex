@@ -8,7 +8,7 @@ interface client {
 export default class SpatialHashArray {
   public cells: Set<client>[];
 
-  constructor(private cellWidth: number, private cellCount: number) {
+  constructor(private readonly cellWidth: number, cellCount: number) {
     this.cells = [...Array(cellCount)].map((_) => new Set());
   }
 
