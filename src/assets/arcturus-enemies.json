@@ -11,58 +11,40 @@
   },
   "elements": [
     {
-      "type": "ship-spinner",
-      "behaviour": 2,
-      "activationPoint": 320,
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 425,
       "startPos": [320, 20]
     },
     {
-      "type": "ship-spinner",
-      "behaviour": 3,
-      "activationPoint": 320,
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 465,
       "startPos": [320, 50]
     },
     {
-      "type": "ship-spinner",
+      "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 360,
-      "startPos": [320, 80]
+      "activationPoint": 515,
+      "startPos": [320, 35]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [320, 20]
+      "activationPoint": 545,
+      "startPos": [320, 10]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [340, 50]
+      "activationPoint": 565,
+      "startPos": [320, 60]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [365, 35]
-    },
-    {
-      "type": "square-spinner",
-      "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [380, 10]
-    },
-    {
-      "type": "square-spinner",
-      "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [390, 60]
-    },
-    {
-      "type": "square-spinner",
-      "behaviour": 1,
-      "activationPoint": 425,
-      "startPos": [400, 40]
+      "activationPoint": 585,
+      "startPos": [320, 40]
     },
     {
       "type": "square-spinner",

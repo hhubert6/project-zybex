@@ -21,7 +21,8 @@ export default class World {
   currentViewMap: mapElement[] = [];
   currentViewIndex = 0 * 320; // current map x position
 
-  private bulletsPool: bullet[] = [];
+  enemiesBullets: bullet[] = [];
+  private enemiesBulletsPool: bullet[] = [];
 
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
@@ -87,7 +88,28 @@ export default class World {
     this.removeFinishedEnemies();
 
     for (let i = 0; i < this.currentEnemies.length; i++) {
-      this.currentEnemies[i].update();
+      this.currentEnemies[i].update(this.enemiesBullets, this.enemiesBulletsPool);
+    }
+  }
+
+  updateBullets() {
+    for (let i = 0; i < this.enemiesBullets.length; i++) {
+      this.enemiesBullets[i].pos[0] += this.enemiesBullets[i].velocity[0];
+      this.enemiesBullets[i].pos[1] += this.enemiesBullets[i].velocity[1];
+    }
+
+    const removalIndices = [];
+
+    for (let i = 0; i < this.enemiesBullets.length; i++) {
+      if (this.enemiesBullets[i].pos[0] < 0) {
+        removalIndices.push(i);
+      }
+    }
+
+    while (removalIndices.length) {
+      this.enemiesBulletsPool.push(
+        ...this.enemiesBullets.splice(removalIndices.pop()!, 1),
+      );
     }
   }
 
@@ -117,13 +139,7 @@ export default class World {
     if (enemy) {
       enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour);
     } else {
-      enemy = new Enemy(
-        type,
-        this.enemyTypes[type],
-        startPos as Vector,
-        behaviour,
-        this.bulletsPool,
-      );
+      enemy = new Enemy(type, this.enemyTypes[type], startPos as Vector, behaviour);
     }
 
     this.currentEnemies.push(enemy);

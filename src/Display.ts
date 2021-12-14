@@ -1,6 +1,7 @@
 import { Vector } from './vector';
 import { Enemy } from './world/enemies';
 import { mapElement, mapElementTypes } from './world/map';
+import { bullet } from './world/Shooter';
 
 interface Drawable {
   pos: Vector;
@@ -61,6 +62,17 @@ export default class Display {
       const [dx, dy] = enemies[i].pos;
 
       this.buffer.fillStyle = 'orange';
+
+      this.buffer.fillRect(dx | 0, dy | 0, w, h);
+    }
+  }
+
+  drawBullets(bullets: bullet[]) {
+    for (let i = 0; i < bullets.length; i++) {
+      const [w, h] = bullets[i].dimensions;
+      const [dx, dy] = bullets[i].pos;
+
+      this.buffer.fillStyle = 'purple';
 
       this.buffer.fillRect(dx | 0, dy | 0, w, h);
     }

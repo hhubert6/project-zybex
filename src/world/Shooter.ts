@@ -9,44 +9,69 @@ export enum weapon {
 }
 
 export enum bulletType {
-  BASIC,
+  PRIMARY,
   SECONDARY,
   TERTIARY,
 }
 
 export interface bullet {
   pos: Vector;
+  velocity: Vector;
   dimensions: Vector;
   type: bulletType;
 }
 
 abstract class Shooter {
   protected timeCounter = 0;
-  bullets: bullet[] = [];
+  bullets?: bullet[];
 
-  constructor(protected srcPos: Vector, protected bulletsPool: bullet[]) {}
+  constructor(protected srcPos: Vector) {}
 
-  abstract update(): void;
+  abstract update(...args: any[]): void;
 
-  protected abstract fire(): void;
+  protected abstract fire(...args: any[]): void;
 }
 
 export class EnemyShooter extends Shooter {
-  private readonly delay: number;
+  private delay: number | null;
 
-  constructor(delay: number, srcPos: Vector, bulletsPool: bullet[]) {
-    super(srcPos, bulletsPool);
-    this.delay = delay * 60;
+  constructor(delay: number | null, srcPos: Vector, private height: number) {
+    super(srcPos);
+    this.delay = delay ? delay * 60 : delay;
   }
 
-  update() {
+  setup(delay: number | null, srcPos: Vector, height: number) {
+    this.delay = delay ? delay * 60 : delay;
+    this.srcPos = srcPos;
+    this.height = height;
+  }
+
+  update(bullets: bullet[], bulletsPool: bullet[]) {
+    if (!this.delay) return;
+
     this.timeCounter++;
 
     if (this.timeCounter >= this.delay) {
       this.timeCounter = 0;
-      this.fire();
+      this.fire(bullets, bulletsPool);
     }
   }
 
-  fire() {}
+  fire(bullets: bullet[], bulletsPool: bullet[]) {
+    let bullet = bulletsPool.pop();
+
+    if (bullet) {
+      bullet.pos[0] = this.srcPos[0];
+      bullet.pos[1] = this.srcPos[1] + this.height / 2;
+    } else {
+      bullet = {
+        pos: [this.srcPos[0], this.srcPos[1] + this.height / 2],
+        velocity: [-3, 0],
+        dimensions: [5, 3],
+        type: bulletType.PRIMARY,
+      };
+    }
+
+    bullets.push(bullet);
+  }
 }

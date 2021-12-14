@@ -25,6 +25,7 @@ const update = () => {
 const render = () => {
   display.clear();
   display.drawMap(assetsManager.bgImg!, game.world.currentViewMap);
+  display.drawBullets(game.world.enemiesBullets);
   display.drawEnemies(game.world.currentEnemies);
   display.drawRectangle(game.world.player);
   display.render();

@@ -31,16 +31,15 @@ export class Enemy implements Moveable {
   private health = 4;
   private timeCounter = 0;
   private moveStage = 1;
-  private shooter: EnemyShooter;
+  readonly shooter: EnemyShooter;
 
   constructor(
     public typeName: string,
     type: enemyType,
     public pos: Vector,
     public behaviour: number,
-    bulletsPool: bullet[],
   ) {
-    this.shooter = new EnemyShooter(60, this.pos, bulletsPool);
+    this.shooter = new EnemyShooter(5, this.pos, type.dimensions[1]);
     this.spritePos = type.spritePos as Vector;
     this.dimensions = type.dimensions as Vector;
 
@@ -48,13 +47,22 @@ export class Enemy implements Moveable {
   }
 
   setup(typeName: string, type: enemyType, pos: Vector, behaviour: number) {
+    let fireDelay = null;
+
+    switch (typeName) {
+      case 'square-spinner':
+        if (behaviour !== 3) fireDelay = 5;
+        break;
+    }
+
+    this.shooter.setup(fireDelay, pos, this.dimensions[1]);
     this.typeName = typeName;
     this.pos = pos;
     this.behaviour = behaviour;
     this.spritePos = type.spritePos as Vector;
     this.dimensions = type.dimensions as Vector;
 
-    this.velocity = [0, 0];
+    (this.velocity[0] = 0), (this.velocity[1] = 0);
     this.health = 4;
     this.finished = false;
     this.timeCounter = 0;
@@ -101,8 +109,8 @@ export class Enemy implements Moveable {
     }
   }
 
-  update() {
-    this.shooter.update();
+  update(bullets: bullet[], bulletsPool: bullet[]) {
+    this.shooter.update(bullets, bulletsPool);
 
     switch (this.typeName) {
       case 'ship-spinner':

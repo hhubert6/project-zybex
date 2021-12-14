@@ -22,6 +22,8 @@ export default class Game {
     // updating enemies state
     this.world.updateEnemies();
 
+    this.world.updateBullets();
+
     // updating player state
     this.world.player.update();
 
