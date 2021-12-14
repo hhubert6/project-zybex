@@ -9,24 +9,24 @@ export default class Player implements Moveable {
   colliding = false;
 
   moveRight() {
-    this.velocity[0] = 1;
+    this.velocity[0] = 2;
   }
 
   moveLeft() {
-    this.velocity[0] = -1;
+    this.velocity[0] = -2;
   }
 
   moveUp() {
-    this.velocity[1] = -1;
+    this.velocity[1] = -2;
   }
 
   moveDown() {
-    this.velocity[1] = 1;
+    this.velocity[1] = 2;
   }
 
-  update(deltaTime: number) {
-    this.pos[0] += this.velocity[0] * (deltaTime / 10);
-    this.pos[1] += this.velocity[1] * (deltaTime / 10);
+  update() {
+    this.pos[0] += this.velocity[0];
+    this.pos[1] += this.velocity[1];
     this.color = this.colliding ? '#ff0000' : '#dddddd';
   }
 }

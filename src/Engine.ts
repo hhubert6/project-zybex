@@ -5,11 +5,7 @@ export default class Engine {
   private lastTime = 0;
   private updated = false;
 
-  constructor(
-    fps: number,
-    private update: (d: number) => void,
-    private render: () => void,
-  ) {
+  constructor(fps: number, private update: () => void, private render: () => void) {
     this.frameTime = 1000 / fps;
   }
 
@@ -20,7 +16,7 @@ export default class Engine {
     while (this.accumulatedTime > this.frameTime) {
       this.accumulatedTime -= this.frameTime;
 
-      this.update(this.frameTime);
+      this.update();
       this.updated = true;
     }
 

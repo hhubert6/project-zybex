@@ -3,20 +3,102 @@
     "square-spinner": {
       "spritePos": [],
       "dimensions": [20, 20]
+    },
+    "ship-spinner": {
+      "spritePos": [],
+      "dimensions": [20,20]
     }
   },
   "elements": [
     {
+      "type": "ship-spinner",
+      "behaviour": 2,
+      "activationPoint": 320,
+      "startPos": [320, 20]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 3,
+      "activationPoint": 320,
+      "startPos": [320, 50]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 360,
+      "startPos": [320, 80]
+    },
+    {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 320,
+      "activationPoint": 425,
       "startPos": [320, 20]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 520,
+      "activationPoint": 425,
+      "startPos": [340, 50]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 425,
+      "startPos": [365, 35]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 425,
+      "startPos": [380, 10]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 425,
+      "startPos": [390, 60]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 425,
+      "startPos": [400, 40]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
       "startPos": [320, 20]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
+      "startPos": [340, 50]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
+      "startPos": [365, 35]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
+      "startPos": [380, 10]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
+      "startPos": [390, 60]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1230,
+      "startPos": [400, 40]
     }
   ]
 }

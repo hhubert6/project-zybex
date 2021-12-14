@@ -13,7 +13,7 @@ export default class Game {
     this.mapCollider = new MapCollider(map.types);
   }
 
-  update(deltaTime: number) {
+  update() {
     if (this.pause) return;
 
     // updating current world map
@@ -23,7 +23,7 @@ export default class Game {
     this.world.updateEnemies();
 
     // updating player state
-    this.world.player.update(deltaTime);
+    this.world.player.update();
 
     // updating player with world physics
     this.world.player.velocity[0] *= this.world.friction;

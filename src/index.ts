@@ -8,7 +8,7 @@ import map from './assets/arcturus-map.json';
 import enemies from './assets/arcturus-enemies.json';
 const bgImg = require('./assets/background.png');
 
-const update = (deltaTime: number) => {
+const update = () => {
   if (controller.left.active) game.world.player.moveLeft();
   if (controller.right.active) game.world.player.moveRight();
   if (controller.up.active) game.world.player.moveUp();
@@ -19,7 +19,7 @@ const update = (deltaTime: number) => {
     controller.space.active = false;
   }
 
-  game.update(deltaTime);
+  game.update();
 };
 
 const render = () => {

@@ -50,8 +50,8 @@ export default class Display {
 
   drawEnemies(enemies: Enemy[]) {
     for (let i = 0; i < enemies.length; i++) {
-      const [sx, sy] = enemies[i].type.spritePos;
-      const [w, h] = enemies[i].type.dimensions;
+      const [sx, sy] = enemies[i].spritePos;
+      const [w, h] = enemies[i].dimensions;
       const [dx, dy] = enemies[i].pos;
 
       this.buffer.fillStyle = 'orange';

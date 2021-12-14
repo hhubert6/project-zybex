@@ -18,7 +18,7 @@ export default class World {
   mapHashArray: SpatialHashArray;
   mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
-  currentViewIndex = 19 * 320; // current map x position
+  currentViewIndex = 0 * 320; // current map x position
 
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
@@ -67,7 +67,7 @@ export default class World {
     this.currentViewIndex += 1;
 
     // temporary
-    if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 19 * 320;
+    if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 0 * 320;
   }
 
   updateEnemies() {
@@ -102,7 +102,7 @@ export default class World {
 
   collideEnemies(objects: Enemy[]) {
     for (let i = 0; i < objects.length; i++) {
-      if (objects[i].pos[0] + objects[i].type.dimensions[0] <= 0) {
+      if (objects[i].pos[0] + objects[i].dimensions[0] <= 0) {
         objects[i].finished = true;
       }
     }
@@ -112,11 +112,7 @@ export default class World {
     let enemy = this.enemiesPool.pop();
 
     if (enemy) {
-      enemy.typeName = type;
-      enemy.type = this.enemyTypes[type];
-      enemy.pos = startPos as Vector;
-      enemy.behaviour = behaviour;
-      enemy.finished = false;
+      enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour);
     } else {
       enemy = new Enemy(type, this.enemyTypes[type], startPos as Vector, behaviour);
     }
