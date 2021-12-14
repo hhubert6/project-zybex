@@ -9,7 +9,7 @@ export default class Engine {
     this.frameTime = 1000 / fps;
   }
 
-  run(curTime: number) {
+  private run(curTime: number) {
     this.accumulatedTime += curTime - this.lastTime;
     this.lastTime = curTime;
 
@@ -28,12 +28,12 @@ export default class Engine {
     this.animationRequestFrameId = requestAnimationFrame((t) => this.run(t));
   }
 
-  public start() {
+  start() {
     this.lastTime = performance.now();
     this.animationRequestFrameId = requestAnimationFrame((t) => this.run(t));
   }
 
-  public stop() {
+  stop() {
     if (this.animationRequestFrameId) {
       cancelAnimationFrame(this.animationRequestFrameId);
     }

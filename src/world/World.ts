@@ -3,6 +3,7 @@ import Player from './Player';
 import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
 import { enemies, enemy, Enemy, enemyTypes } from './enemies';
+import { bullet, bulletType } from './Shooter';
 
 export default class World {
   friction = 0.8;
@@ -20,6 +21,8 @@ export default class World {
   currentViewMap: mapElement[] = [];
   currentViewIndex = 0 * 320; // current map x position
 
+  bulletsPool: bullet[] = [];
+
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
     const [worldWidth, worldHeight] = this.dimensions;
@@ -36,7 +39,7 @@ export default class World {
     this.setupEnemies(enemies);
   }
 
-  setupMap({ elements, types }: map) {
+  private setupMap({ elements, types }: map) {
     for (let i = 0; i < elements.length; i++) {
       this.mapHashArray.addClient(
         elements[i].pos[0],
@@ -46,7 +49,7 @@ export default class World {
     }
   }
 
-  setupEnemies({ elements }: enemies) {
+  private setupEnemies({ elements }: enemies) {
     for (let i = 0; i < elements.length; i++) {
       this.enemiesHashArray.addClient(elements[i].activationPoint, 1, elements[i]);
     }
@@ -114,7 +117,12 @@ export default class World {
     if (enemy) {
       enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour);
     } else {
-      enemy = new Enemy(type, this.enemyTypes[type], startPos as Vector, behaviour);
+      enemy = new Enemy(
+        type,
+        this.enemyTypes[type],
+        startPos as Vector,
+        behaviour,
+      );
     }
 
     this.currentEnemies.push(enemy);

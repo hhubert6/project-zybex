@@ -26,10 +26,10 @@ export class Enemy implements Moveable {
   spritePos: Vector;
   dimensions: Vector;
   velocity: Vector = [0, 0];
-  health = 4;
   finished = false;
-  moveCount = 0;
-  moveStage = 1;
+  private health = 4;
+  private timeCounter = 0;
+  private moveStage = 1;
 
   constructor(
     public typeName: string,
@@ -53,7 +53,7 @@ export class Enemy implements Moveable {
     this.velocity = [0, 0];
     this.health = 4;
     this.finished = false;
-    this.moveCount = 0;
+    this.timeCounter = 0;
     this.moveStage = 1;
 
     this.setupByType();
@@ -106,19 +106,19 @@ export class Enemy implements Moveable {
 
     this.pos[0] += this.velocity[0];
     this.pos[1] += this.velocity[1];
+
+    this.timeCounter++;
   }
 
   private updateShipSpinner() {
     if (this.behaviour === 2 || this.behaviour === 3) return;
-
-    this.moveCount++;
 
     if (this.moveStage === 1 && this.pos[0] <= 320 - this.dimensions[0] - 1) {
       this.velocity[0] = 0;
       this.moveStage++;
     }
 
-    if (this.moveCount === 60 * 5) {
+    if (this.timeCounter === 60 * 5) {
       this.velocity[0] = -3;
     }
   }

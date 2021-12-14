@@ -5,7 +5,7 @@ export default class Controller {
   up = new ButtonInput();
   space = new ButtonInput();
 
-  public handleKeyDownUp: (ev: KeyboardEvent) => void;
+  handleKeyDownUp: (ev: KeyboardEvent) => void;
 
   constructor() {
     this.handleKeyDownUp = (ev) => this.keyDownUp(ev);
@@ -39,10 +39,10 @@ export default class Controller {
 }
 
 class ButtonInput {
-  public active = false;
-  public down = false;
+  active = false;
+  down = false;
 
-  public setInput(down: boolean) {
+  setInput(down: boolean) {
     if (this.down !== down) this.active = down;
     this.down = down;
   }

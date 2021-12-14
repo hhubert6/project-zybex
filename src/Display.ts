@@ -2,6 +2,12 @@ import { Vector } from './vector';
 import { Enemy } from './world/enemies';
 import { mapElement, mapElementTypes } from './world/map';
 
+interface Drawable {
+  pos: Vector;
+  dimensions: Vector;
+  color: string;
+}
+
 export default class Display {
   private ctx: CanvasRenderingContext2D;
   private buffer: CanvasRenderingContext2D;
@@ -63,10 +69,4 @@ export default class Display {
   render() {
     this.ctx.drawImage(this.buffer.canvas, 0, 0);
   }
-}
-
-interface Drawable {
-  pos: Vector;
-  dimensions: Vector;
-  color: string;
 }
