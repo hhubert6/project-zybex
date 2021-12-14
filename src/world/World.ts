@@ -18,7 +18,7 @@ export default class World {
   mapHashArray: SpatialHashArray;
   mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
-  currentViewIndex = 0; // current map x position
+  currentViewIndex = 19 * 320; // current map x position
 
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
@@ -67,7 +67,7 @@ export default class World {
     this.currentViewIndex += 1;
 
     // temporary
-    if (this.currentViewIndex >= 2 * 320) this.currentViewIndex = -0;
+    if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 19 * 320;
   }
 
   updateEnemies() {
@@ -86,8 +86,6 @@ export default class World {
     for (let i = 0; i < this.currentEnemies.length; i++) {
       this.currentEnemies[i].update();
     }
-
-    console.log(this.currentEnemies.length, this.enemiesPool.length);
   }
 
   collidePlayer(object: Player) {

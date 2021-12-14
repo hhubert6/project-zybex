@@ -47,6 +47,8 @@ export default class SpatialHashArray {
     const x1 = this.getCellIndex(client.x);
     const x2 = this.getCellIndex(client.x + client.width);
 
+    if (x2 >= this.cells.length) return;
+
     client.indices = [x1, x2];
 
     for (let x = x1, xn = x2; x <= xn; x++) {
