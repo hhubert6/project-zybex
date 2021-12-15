@@ -5,9 +5,11 @@ import SpatialHashArray from '../SpatialHashArray';
 import { enemies, enemy, Enemy, enemyTypes } from './enemies';
 import { bullet } from './Shooter';
 
+export const WORLD_WIDTH = 320;
+export const WORLD_HEIGHT = 175;
+
 export default class World {
   friction = 0.8;
-  dimensions: Vector = [320, 192];
 
   player = new Player();
 
@@ -22,14 +24,13 @@ export default class World {
   currentViewIndex = 0 * 320; // current map x position
 
   enemiesBullets: bullet[] = [];
-  private enemiesBulletsPool: bullet[] = [];
+  bulletsPool: bullet[] = [];
 
   constructor(map: map, enemies: enemies) {
     const [playerWidth, playerHeight] = this.player.dimensions;
-    const [worldWidth, worldHeight] = this.dimensions;
 
-    this.player.pos[0] = worldWidth / 2 - playerWidth / 2;
-    this.player.pos[1] = worldHeight / 2 - playerHeight / 2;
+    this.player.pos[0] = WORLD_WIDTH / 2 - playerWidth / 2;
+    this.player.pos[1] = WORLD_HEIGHT / 2 - playerHeight / 2;
 
     this.mapHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
     this.mapElementTypes = map.types;
@@ -60,12 +61,12 @@ export default class World {
     const resolvePosition = ({ pos, type }: mapElement): Vector => {
       return [
         pos[0] - this.currentViewIndex,
-        this.dimensions[1] - pos[1] - this.mapElementTypes[type].dimensions[1],
+        WORLD_HEIGHT - pos[1] - this.mapElementTypes[type].dimensions[1],
       ];
     };
 
     this.currentViewMap = this.mapHashArray
-      .getInRange(this.currentViewIndex, this.dimensions[0])
+      .getInRange(this.currentViewIndex, WORLD_WIDTH)
       .map<mapElement>(({ data }) => ({ ...data, pos: resolvePosition(data) }));
 
     this.currentViewIndex += 1;
@@ -75,7 +76,7 @@ export default class World {
   }
 
   updateEnemies() {
-    const currentPoint = this.currentViewIndex + this.dimensions[0];
+    const currentPoint = this.currentViewIndex + WORLD_WIDTH;
     const enemiesToActivate = this.enemiesHashArray
       .getInRange(currentPoint, 1)
       .filter(({ data: { activationPoint } }) => currentPoint >= activationPoint);
@@ -88,7 +89,7 @@ export default class World {
     this.removeFinishedEnemies();
 
     for (let i = 0; i < this.currentEnemies.length; i++) {
-      this.currentEnemies[i].update(this.enemiesBullets, this.enemiesBulletsPool);
+      this.currentEnemies[i].update(this.enemiesBullets, this.bulletsPool);
     }
   }
 
@@ -101,27 +102,34 @@ export default class World {
     const removalIndices = [];
 
     for (let i = 0; i < this.enemiesBullets.length; i++) {
-      if (this.enemiesBullets[i].pos[0] < 0) {
+      if (
+        this.enemiesBullets[i].pos[0] < 0 ||
+        this.enemiesBullets[i].pos[1] < 0 ||
+        this.enemiesBullets[i].pos[1] > WORLD_HEIGHT
+      ) {
         removalIndices.push(i);
       }
     }
 
     while (removalIndices.length) {
-      this.enemiesBulletsPool.push(
-        ...this.enemiesBullets.splice(removalIndices.pop()!, 1),
-      );
+      this.bulletsPool.push(...this.enemiesBullets.splice(removalIndices.pop()!, 1));
     }
   }
 
   collidePlayer(object: Player) {
-    for (let i = 0; i < 2; i++) {
-      if (object.pos[i] <= 0) {
-        object.pos[i] = 0;
-        object.velocity[i] = 0;
-      } else if (object.pos[i] + object.dimensions[i] >= this.dimensions[i]) {
-        object.pos[i] = this.dimensions[i] - object.dimensions[i];
-        object.velocity[i] = 0;
-      }
+    if (object.pos[0] <= 0) {
+      object.pos[0] = 0;
+      object.velocity[0] = 0;
+    } else if (object.pos[0] + object.dimensions[0] >= WORLD_WIDTH) {
+      object.pos[0] = WORLD_WIDTH - object.dimensions[0];
+      object.velocity[0] = 0;
+    }
+    if (object.pos[1] <= 0) {
+      object.pos[1] = 0;
+      object.velocity[1] = 0;
+    } else if (object.pos[1] + object.dimensions[1] >= WORLD_HEIGHT) {
+      object.pos[1] = WORLD_HEIGHT - object.dimensions[1];
+      object.velocity[1] = 0;
     }
   }
 

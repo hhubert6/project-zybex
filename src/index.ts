@@ -6,6 +6,7 @@ import Controller from './Controller';
 
 import map from './assets/arcturus-map.json';
 import enemies from './assets/arcturus-enemies.json';
+import { WORLD_HEIGHT, WORLD_WIDTH } from './world/World';
 const bgImg = require('./assets/background.png');
 
 const update = () => {
@@ -25,7 +26,7 @@ const update = () => {
 const render = () => {
   display.clear();
   display.drawMap(assetsManager.bgImg!, game.world.currentViewMap);
-  display.drawBullets(game.world.enemiesBullets);
+  display.drawBullets([...game.world.enemiesBullets, ...game.world.player.bullets]);
   display.drawEnemies(game.world.currentEnemies);
   display.drawRectangle(game.world.player);
   display.render();
@@ -36,7 +37,8 @@ const controller = new Controller();
 const game = new Game(map, enemies);
 const display = new Display(
   document.querySelector('canvas')!,
-  game.world.dimensions,
+  WORLD_WIDTH,
+  WORLD_HEIGHT,
   map.types,
 );
 const engine = new Engine(60, update, render);

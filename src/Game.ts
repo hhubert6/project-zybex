@@ -25,7 +25,7 @@ export default class Game {
     this.world.updateBullets();
 
     // updating player state
-    this.world.player.update();
+    this.world.player.update(this.world.bulletsPool);
 
     // updating player with world physics
     this.world.player.velocity[0] *= this.world.friction;

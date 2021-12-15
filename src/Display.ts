@@ -15,7 +15,8 @@ export default class Display {
 
   constructor(
     canvas: HTMLCanvasElement,
-    [width, height]: Vector,
+    width: number,
+    height: number,
     private readonly mapTypes: mapElementTypes,
   ) {
     this.ctx = canvas.getContext('2d')!;
