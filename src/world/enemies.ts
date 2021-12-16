@@ -1,6 +1,7 @@
 import { Vector } from '../vector';
 import { Moveable } from './Moveable';
-import { bullet, EnemyShooter } from './Shooter';
+import { EnemyShooter } from './shooters/EnemyShooter';
+import { bullet } from './shooters/shooter';
 
 export interface enemyType {
   spritePos: number[];
@@ -38,10 +39,18 @@ export class Enemy implements Moveable {
     type: enemyType,
     public pos: Vector,
     public behaviour: number,
+    bullets: bullet[],
+    bulletsPool: bullet[],
   ) {
-    this.shooter = new EnemyShooter(5, this.pos, type.dimensions[1]);
     this.spritePos = type.spritePos as Vector;
     this.dimensions = type.dimensions as Vector;
+    this.shooter = new EnemyShooter(
+      4,
+      this.pos,
+      this.dimensions,
+      bullets,
+      bulletsPool,
+    );
 
     this.setupByType();
   }
@@ -55,7 +64,7 @@ export class Enemy implements Moveable {
         break;
     }
 
-    this.shooter.setup(fireDelay, pos, this.dimensions[1]);
+    this.shooter.setup(fireDelay, pos, this.dimensions);
     this.typeName = typeName;
     this.pos = pos;
     this.behaviour = behaviour;
@@ -76,7 +85,7 @@ export class Enemy implements Moveable {
       case 'square-spinner':
         switch (this.behaviour) {
           case 1:
-            this.velocity[0] = -0.5;
+            this.velocity[0] = -0.9;
             this.velocity[1] = 0;
             break;
           case 2:
@@ -110,7 +119,7 @@ export class Enemy implements Moveable {
   }
 
   update(bullets: bullet[], bulletsPool: bullet[]) {
-    this.shooter.update(bullets, bulletsPool);
+    this.shooter.start();
 
     switch (this.typeName) {
       case 'ship-spinner':

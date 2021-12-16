@@ -1,9 +1,9 @@
 import { Vector } from '../vector';
-import Player from './Player';
+import Player, { PLAYER_HEIGHT } from './Player';
 import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
 import { enemies, enemy, Enemy, enemyTypes } from './enemies';
-import { bullet } from './Shooter';
+import { bullet } from './shooters/shooter';
 
 export const WORLD_WIDTH = 320;
 export const WORLD_HEIGHT = 175;
@@ -11,7 +11,7 @@ export const WORLD_HEIGHT = 175;
 export default class World {
   friction = 0.8;
 
-  player = new Player();
+  player: Player;
 
   private readonly enemiesHashArray: SpatialHashArray;
   private readonly enemyTypes: enemyTypes;
@@ -27,10 +27,10 @@ export default class World {
   bulletsPool: bullet[] = [];
 
   constructor(map: map, enemies: enemies) {
-    const [playerWidth, playerHeight] = this.player.dimensions;
-
-    this.player.pos[0] = WORLD_WIDTH / 2 - playerWidth / 2;
-    this.player.pos[1] = WORLD_HEIGHT / 2 - playerHeight / 2;
+    this.player = new Player(
+      [WORLD_WIDTH / 5, WORLD_HEIGHT / 2 - PLAYER_HEIGHT / 2],
+      this.bulletsPool,
+    );
 
     this.mapHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
     this.mapElementTypes = map.types;
@@ -69,7 +69,7 @@ export default class World {
       .getInRange(this.currentViewIndex, WORLD_WIDTH)
       .map<mapElement>(({ data }) => ({ ...data, pos: resolvePosition(data) }));
 
-    this.currentViewIndex += 1;
+    this.currentViewIndex += 1.77;
 
     // temporary
     if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 0 * 320;
@@ -120,8 +120,8 @@ export default class World {
     if (object.pos[0] <= 0) {
       object.pos[0] = 0;
       object.velocity[0] = 0;
-    } else if (object.pos[0] + object.dimensions[0] >= WORLD_WIDTH) {
-      object.pos[0] = WORLD_WIDTH - object.dimensions[0];
+    } else if (object.pos[0] + object.dimensions[0] >= WORLD_WIDTH - 5) {
+      object.pos[0] = WORLD_WIDTH - 5 - object.dimensions[0];
       object.velocity[0] = 0;
     }
     if (object.pos[1] <= 0) {
@@ -147,7 +147,14 @@ export default class World {
     if (enemy) {
       enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour);
     } else {
-      enemy = new Enemy(type, this.enemyTypes[type], startPos as Vector, behaviour);
+      enemy = new Enemy(
+        type,
+        this.enemyTypes[type],
+        startPos as Vector,
+        behaviour,
+        this.enemiesBullets,
+        this.bulletsPool,
+      );
     }
 
     this.currentEnemies.push(enemy);

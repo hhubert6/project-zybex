@@ -14,6 +14,10 @@ const update = () => {
   if (controller.right.active) game.world.player.moveRight();
   if (controller.up.active) game.world.player.moveUp();
   if (controller.down.active) game.world.player.moveDown();
+  if (controller.ctrl.active) {
+    game.world.player.changeWeapon();
+    controller.ctrl.active = false;
+  }
 
   if (controller.space.active) {
     game.togglePause();

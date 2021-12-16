@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 import { Enemy } from './world/enemies';
 import { mapElement, mapElementTypes } from './world/map';
-import { bullet } from './world/Shooter';
+import { bullet } from './world/shooters/shooter';
 
 interface Drawable {
   pos: Vector;

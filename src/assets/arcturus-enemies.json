@@ -2,7 +2,7 @@
   "types": {
     "square-spinner": {
       "spritePos": [],
-      "dimensions": [20, 20]
+      "dimensions": [15, 15]
     },
     "ship-spinner": {
       "spritePos": [],
@@ -13,37 +13,37 @@
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 425,
+      "activationPoint": 365,
       "startPos": [320, 20]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 465,
+      "activationPoint": 405,
       "startPos": [320, 50]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 515,
+      "activationPoint": 455,
       "startPos": [320, 35]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 545,
+      "activationPoint": 485,
       "startPos": [320, 10]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 565,
+      "activationPoint": 505,
       "startPos": [320, 60]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 585,
+      "activationPoint": 525,
       "startPos": [320, 40]
     },
     {

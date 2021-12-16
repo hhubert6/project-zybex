@@ -4,6 +4,7 @@ export default class Controller {
   right = new ButtonInput();
   up = new ButtonInput();
   space = new ButtonInput();
+  ctrl = new ButtonInput();
 
   readonly handleKeyDownUp: (ev: KeyboardEvent) => void;
 
@@ -34,6 +35,9 @@ export default class Controller {
       case ' ':
         this.space.setInput(down);
         break;
+
+      case 'Control':
+        this.ctrl.setInput(down);
     }
   }
 }
