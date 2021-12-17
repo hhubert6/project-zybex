@@ -1,26 +1,13 @@
 import { Enemy } from '../world/enemies';
 import { getBoundings, Moveable } from '../world/Moveable';
-import { bullet, bulletPower } from '../world/shooters/shooter';
 
-export default class BulletsCollider {
-  collideEnemies(enemies: Enemy[], bullets: bullet[]) {
+export default class EnemiesCollider {
+  collide(obj: Moveable, enemies: Enemy[]): boolean {
     for (let i = 0; i < enemies.length; i++) {
       if (enemies[i].dying) continue;
 
-      for (let j = 0; j < bullets.length; j++) {
-        if (bullets[j].striked) continue;
-
-        if (this.collideObject(enemies[i], bullets[j])) {
-          bullets[j].striked = true;
-          enemies[i].striked += bulletPower[bullets[j].weapon!];
-        }
-      }
-    }
-  }
-
-  collidePlayer(player: Moveable, bullets: bullet[]): boolean {
-    for (let i = 0; i < bullets.length; i++) {
-      if (this.collideObject(player, bullets[i])) {
+      if (this.collideObject(obj, enemies[i])) {
+        enemies[i].striked = 10;
         return true;
       }
     }

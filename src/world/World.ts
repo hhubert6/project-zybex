@@ -21,7 +21,7 @@ export default class World {
   private readonly mapHashArray: SpatialHashArray;
   private readonly mapElementTypes: mapElementTypes;
   currentViewMap: mapElement[] = [];
-  currentViewIndex = 0 * 320; // current map x position
+  currentViewIndex = 0; // current map x position
 
   enemiesBullets: bullet[] = [];
   bulletsPool: bullet[] = [];
@@ -69,7 +69,7 @@ export default class World {
     this.currentViewIndex += 1.77;
 
     // temporary
-    if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 0 * 320;
+    if (this.currentViewIndex >= 22 * 320) this.currentViewIndex = 0;
   }
 
   updateEnemies() {
@@ -80,7 +80,7 @@ export default class World {
 
     for (let i = 0; i < enemiesToActivate.length; i++) {
       this.enemiesHashArray.removeClient(enemiesToActivate[i]);
-      this.activateEnemy(enemiesToActivate[i].data);
+      this.activateEnemy(enemiesToActivate[i].data, i);
     }
 
     this.removeFinishedEnemies();
@@ -140,11 +140,11 @@ export default class World {
     }
   }
 
-  private activateEnemy({ type, startPos, behaviour }: enemy) {
+  private activateEnemy({ type, startPos, behaviour }: enemy, i: number) {
     let enemy = this.enemiesPool.pop();
 
     if (enemy) {
-      enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour);
+      enemy.setup(type, this.enemyTypes[type], startPos as Vector, behaviour, i);
     } else {
       enemy = new Enemy(
         type,
@@ -153,6 +153,7 @@ export default class World {
         behaviour,
         this.enemiesBullets,
         this.bulletsPool,
+        i,
       );
     }
 
@@ -164,6 +165,8 @@ export default class World {
 
     for (let i = 0; i < this.currentEnemies.length; i++) {
       if (this.currentEnemies[i].finished) {
+        if (this.currentEnemies[i].health === 0) this.increaseScore();
+
         removalIndices.push(i);
       }
     }
@@ -171,5 +174,10 @@ export default class World {
     while (removalIndices.length) {
       this.enemiesPool.push(...this.currentEnemies.splice(removalIndices.pop()!, 1));
     }
+  }
+
+  private increaseScore() {
+    this.player.score += 50;
+    this.player.onChange('score', this.player.score);
   }
 }

@@ -13,6 +13,7 @@ enum animation {
   DYING = 2,
 }
 export default class Player implements Moveable {
+  score = 0;
   timeCounter = 0;
   color = '#dddddd';
   animation: animation = animation.EMERGING;
@@ -24,8 +25,8 @@ export default class Player implements Moveable {
   colliding = false;
   health = 5;
   levels: Record<weapon, number> = {
-    [weapon.ORBIT]: 4,
-    [weapon.WAY]: 1,
+    [weapon.ORBIT]: 1,
+    [weapon.WAY]: 4,
     [weapon.GUN]: 1,
     [weapon.PULSE]: 1,
     [weapon.WALL]: 1,
@@ -33,7 +34,7 @@ export default class Player implements Moveable {
 
   bullets: bullet[] = [];
   bulletsPool: bullet[] = [];
-  currentWeapon: weapon = weapon.GUN;
+  currentWeapon: weapon = weapon.ORBIT;
   readonly shooter: PlayerShooter;
 
   onChange: (type: string, data: any) => void = () => null;
@@ -101,7 +102,7 @@ export default class Player implements Moveable {
       this.timeCounter = 0;
       this.pos[0] = -PLAYER_WIDTH;
       this.animation = animation.EMERGING;
-      this.color = '#aaaaaa';
+      this.color = '#999999';
       this.shooter.start(this.currentWeapon, this.levels[this.currentWeapon]);
     }
   }
@@ -166,5 +167,6 @@ export default class Player implements Moveable {
 
   private clearBullets() {
     this.bullets.length = 0;
+    this.bulletsPool.length = 0;
   }
 }

@@ -1,4 +1,5 @@
 import BulletsCollider from './colliders/BulletsCollider';
+import EnemiesCollider from './colliders/EnemiesCollider';
 import MapCollider from './colliders/MapCollider';
 import { enemies } from './world/enemies';
 import { map } from './world/map';
@@ -7,6 +8,7 @@ import World from './world/World';
 export default class Game {
   private readonly mapCollider: MapCollider;
   private readonly bulletsCollider = new BulletsCollider();
+  private readonly enemiesCollider = new EnemiesCollider();
   readonly world: World;
   pause = false;
 
@@ -56,7 +58,8 @@ export default class Game {
       this.bulletsCollider.collidePlayer(
         this.world.player,
         this.world.enemiesBullets,
-      )
+      ) ||
+      this.enemiesCollider.collide(this.world.player, this.world.currentEnemies)
     ) {
       this.world.player.colliding = true;
     }

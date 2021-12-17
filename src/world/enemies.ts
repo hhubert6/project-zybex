@@ -31,7 +31,7 @@ export class Enemy implements Moveable {
   finished = false;
   striked = 0; // number of hits
   dying = false;
-  private health = 1;
+  health = 1;
   private timeCounter = 0;
   private moveStage = 1;
   readonly shooter: EnemyShooter;
@@ -43,30 +43,24 @@ export class Enemy implements Moveable {
     public behaviour: number,
     bullets: bullet[],
     bulletsPool: bullet[],
+    index: number,
   ) {
     this.spritePos = type.spritePos as Vector;
     this.dimensions = type.dimensions as Vector;
-    this.shooter = new EnemyShooter(
-      4,
-      this.pos,
-      this.dimensions,
-      bullets,
-      bulletsPool,
-    );
+    this.shooter = new EnemyShooter(this.pos, this.dimensions, bullets, bulletsPool);
 
-    this.setupByType();
+    this.setupByType(index);
   }
 
-  setup(typeName: string, type: enemyType, pos: Vector, behaviour: number) {
-    let fireDelay = null;
-
-    switch (typeName) {
-      case 'square-spinner':
-        if (behaviour !== 3) fireDelay = 5;
-        break;
-    }
-
-    this.shooter.setup(fireDelay, pos, this.dimensions);
+  setup(
+    typeName: string,
+    type: enemyType,
+    pos: Vector,
+    behaviour: number,
+    index: number,
+  ) {
+    this.shooter.setup(pos, this.dimensions);
+    this.shooter.delay = null;
     this.typeName = typeName;
     this.pos = pos;
     this.behaviour = behaviour;
@@ -79,13 +73,14 @@ export class Enemy implements Moveable {
     this.timeCounter = 0;
     this.moveStage = 1;
 
-    this.setupByType();
+    this.setupByType(index);
   }
 
-  private setupByType() {
+  private setupByType(index: number) {
     switch (this.typeName) {
       case 'square-spinner':
         this.health = 2;
+        this.shooter.fireDelay = 4;
         switch (this.behaviour) {
           case 1:
             this.velocity[0] = -0.9;
@@ -106,18 +101,32 @@ export class Enemy implements Moveable {
         this.health = 2;
         switch (this.behaviour) {
           case 1:
+            this.shooter.fireDelay = 2 + ((Math.random() * 2) | 0);
             this.velocity[0] = -3;
-            this.velocity[1] = 0;
             break;
           case 2:
-            this.velocity[0] = -3;
-            this.velocity[1] = 0;
+            this.velocity[0] = -5;
             break;
           case 3:
             this.velocity[0] = -3;
             this.velocity[1] = 0.5 * (Math.round(Math.random()) * 2 - 1);
             break;
         }
+        break;
+
+      case 'worm-head':
+        this.health = 4;
+        this.shooter.fireDelay = 2 + Math.random() * 3;
+        this.shooter.timeCounter = 2 * 60;
+        this.velocity[0] = -0.4;
+        this.timeCounter = index * 5.6;
+        break;
+      case 'worm-body':
+        this.health = 4;
+        this.shooter.fireDelay = 2 + Math.random() * 3;
+        this.shooter.timeCounter = 2 * 60;
+        this.velocity[0] = -0.4;
+        this.timeCounter = index * 5.6;
         break;
     }
   }
@@ -136,6 +145,12 @@ export class Enemy implements Moveable {
       case 'ship-spinner':
         this.updateShipSpinner();
         break;
+      case 'worm-head':
+        this.updateWorm();
+        break;
+      case 'worm-body':
+        this.updateWorm();
+        break;
     }
 
     this.pos[0] += this.velocity[0];
@@ -144,12 +159,13 @@ export class Enemy implements Moveable {
 
   private die() {
     this.dying = true;
+    this.timeCounter = 0;
   }
 
   private updateDie() {
     this.timeCounter++;
 
-    if (this.timeCounter >= 60) {
+    if (this.timeCounter >= 50) {
       this.dying = false;
       this.finished = true;
     }
@@ -164,9 +180,15 @@ export class Enemy implements Moveable {
       this.moveStage++;
     }
 
-    if (this.timeCounter === 60 * 5) {
-      this.velocity[0] = -3;
+    if (this.timeCounter === 60 * 2) {
+      this.velocity[0] = -5;
       this.timeCounter = 0;
     }
+  }
+
+  private updateWorm() {
+    this.timeCounter++;
+
+    this.pos[0] += Math.sin(this.timeCounter / 6) * 2;
   }
 }

@@ -1,26 +1,28 @@
 import { Vector } from '../../vector';
 import { bullet, ENEMY_BULLET_SPEED, getCenterPos, Shooter } from './shooter';
 
+const BULLET_SIZE = 6;
+
 export class EnemyShooter extends Shooter {
-  private delay: number | null;
+  delay: number | null = null;
 
   constructor(
-    delay: number | null,
     srcPos: Vector,
     diemnsions: Vector,
     bullets: bullet[],
     bulletsPool: bullet[],
   ) {
     super(srcPos, diemnsions, bullets, bulletsPool);
-    this.delay = delay ? delay * 60 : delay;
-    if (this.delay) this.timeCounter = this.delay;
   }
 
-  setup(delay: number | null, srcPos: Vector, dimensions: Vector) {
+  setup(srcPos: Vector, dimensions: Vector) {
     this.srcPos = srcPos;
     this.dimensions = dimensions;
-    this.delay = delay ? delay * 60 : delay;
-    if (this.delay) this.timeCounter = this.delay;
+  }
+
+  set fireDelay(v: number) {
+    this.delay = v * 60;
+    this.timeCounter = this.delay;
   }
 
   update() {
@@ -30,15 +32,15 @@ export class EnemyShooter extends Shooter {
 
     if (this.timeCounter >= this.delay) {
       this.timeCounter = 0;
-      // this.fire();
+      this.fire();
     }
   }
 
   fire() {
     let bullet = this.bulletsPool.pop();
 
-    const posX = getCenterPos(this.srcPos[0], this.dimensions[0], 4);
-    const posY = getCenterPos(this.srcPos[1], this.dimensions[1], 4);
+    const posX = getCenterPos(this.srcPos[0], this.dimensions[0], BULLET_SIZE);
+    const posY = getCenterPos(this.srcPos[1], this.dimensions[1], BULLET_SIZE);
 
     if (bullet) {
       bullet.pos[0] = posX;
@@ -49,15 +51,15 @@ export class EnemyShooter extends Shooter {
 
       bullet.striked = false;
 
-      bullet.dimensions[0] = 4;
-      bullet.dimensions[1] = 4;
+      bullet.dimensions[0] = BULLET_SIZE;
+      bullet.dimensions[1] = BULLET_SIZE;
       bullet.weapon = undefined;
       bullet.type = undefined;
     } else {
       bullet = {
         pos: [posX, posY],
         velocity: [-ENEMY_BULLET_SPEED, 0],
-        dimensions: [4, 4],
+        dimensions: [BULLET_SIZE, BULLET_SIZE],
         striked: false,
         power: 1,
       };

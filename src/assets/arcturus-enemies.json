@@ -6,7 +6,15 @@
     },
     "ship-spinner": {
       "spritePos": [],
-      "dimensions": [20,20]
+      "dimensions": [15,15]
+    },
+    "worm-head": {
+      "spritePos": [],
+      "dimensions": [15, 15]
+    },
+    "worm-body": {
+      "spritePos": [],
+      "dimensions": [15, 15]
     }
   },
   "elements": [
@@ -50,37 +58,241 @@
       "type": "square-spinner",
       "behaviour": 1,
       "activationPoint": 1230,
+      "startPos": [320, 80]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1270,
+      "startPos": [320, 110]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1320,
+      "startPos": [320, 95]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1350,
+      "startPos": [320, 60]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1370,
+      "startPos": [320, 120]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 1390,
+      "startPos": [320, 100]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 2245,
       "startPos": [320, 20]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 1230,
-      "startPos": [340, 50]
+      "activationPoint": 2285,
+      "startPos": [320, 50]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 1230,
-      "startPos": [365, 35]
+      "activationPoint": 2335,
+      "startPos": [320, 35]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 1230,
-      "startPos": [380, 10]
+      "activationPoint": 2365,
+      "startPos": [320, 10]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 1230,
-      "startPos": [390, 60]
+      "activationPoint": 2385,
+      "startPos": [320, 60]
     },
     {
       "type": "square-spinner",
       "behaviour": 1,
-      "activationPoint": 1230,
-      "startPos": [400, 40]
+      "activationPoint": 2405,
+      "startPos": [320, 40]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3120,
+      "startPos": [320, 20]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3070,
+      "startPos": [320, 36]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3050,
+      "startPos": [320, 52]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3150,
+      "startPos": [320, 68]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3090,
+      "startPos": [320, 84]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 1,
+      "activationPoint": 3110,
+      "startPos": [320, 100]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3575,
+      "startPos": [320, 20]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3615,
+      "startPos": [320, 50]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3665,
+      "startPos": [320, 35]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3695,
+      "startPos": [320, 10]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3715,
+      "startPos": [320, 60]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 3735,
+      "startPos": [320, 40]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4450,
+      "startPos": [320, 110]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4490,
+      "startPos": [320, 140]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4540,
+      "startPos": [320, 125]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4570,
+      "startPos": [320, 100]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4590,
+      "startPos": [320, 150]
+    },
+    {
+      "type": "square-spinner",
+      "behaviour": 1,
+      "activationPoint": 4610,
+      "startPos": [320, 130]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 2,
+      "activationPoint": 5325,
+      "startPos": [320, 50]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 2,
+      "activationPoint": 5375,
+      "startPos": [320, 80]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 2,
+      "activationPoint": 5395,
+      "startPos": [320, 20]
+    },
+    {
+      "type": "ship-spinner",
+      "behaviour": 2,
+      "activationPoint": 5425,
+      "startPos": [320, 100]
+    },
+    {
+      "type":"worm-head",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 50]
+    },
+    {
+      "type":"worm-body",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 66]
+    },
+    {
+      "type":"worm-body",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 82]
+    },
+    {
+      "type":"worm-body",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 98]
+    },
+    {
+      "type":"worm-body",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 114]
+    },
+    {
+      "type":"worm-head",
+      "behaviour": 1,
+      "activationPoint": 5780,
+      "startPos": [320, 130]
     }
   ]
 }

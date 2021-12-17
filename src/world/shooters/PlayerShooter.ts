@@ -73,7 +73,7 @@ export class PlayerShooter extends Shooter {
     if (this.timeCounter >= 8) {
       this.timeCounter = 0;
       this.fireCounter++;
-      this.fire([PLAYER_BULLET_SPEED, 0], [5, 4], weapon.ORBIT, bulletType.PRIMARY);
+      this.fire([PLAYER_BULLET_SPEED, 0], [6, 6], weapon.ORBIT, bulletType.PRIMARY);
     }
   }
 
@@ -107,8 +107,8 @@ export class PlayerShooter extends Shooter {
         break;
     }
 
-    this.fire(velocity1, [4, 4], weapon.WAY, bulletType.PRIMARY);
-    this.fire(velocity2, [4, 4], weapon.WAY, bulletType.PRIMARY);
+    this.fire(velocity1, [5, 5], weapon.WAY, bulletType.PRIMARY);
+    this.fire(velocity2, [5, 5], weapon.WAY, bulletType.PRIMARY);
   }
 
   private startGun(level: number) {

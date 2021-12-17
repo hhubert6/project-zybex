@@ -71,7 +71,7 @@ export default class Display {
       const [w, h] = enemies[i].dimensions;
       const [dx, dy] = enemies[i].pos;
 
-      this.buffer.fillStyle = 'orange';
+      this.buffer.fillStyle = enemies[i].dying ? 'red' : 'orange';
 
       this.buffer.fillRect(dx | 0, dy | 0, w, h);
     }

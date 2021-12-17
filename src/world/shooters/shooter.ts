@@ -42,7 +42,7 @@ export const getCenterPos = (outerPos: number, outerDim: number, innerDim: numbe
   outerPos + outerDim / 2 - innerDim / 2;
 
 export abstract class Shooter {
-  protected timeCounter = 0;
+  timeCounter = 0;
 
   constructor(
     protected srcPos: Vector,
