@@ -1,7 +1,7 @@
 import { Vector } from './vector';
 import { Enemy } from './world/enemies';
 import { mapElement, mapElementTypes } from './world/map';
-import { bullet } from './world/shooters/shooter';
+import { bullet, weapon } from './world/shooters/shooter';
 
 interface Drawable {
   pos: Vector;
@@ -13,7 +13,12 @@ export default class Display {
   private readonly ctx: CanvasRenderingContext2D;
   private readonly buffer: CanvasRenderingContext2D;
 
+  private readonly scoreEl: HTMLSpanElement;
+  private readonly healthEl: HTMLSpanElement;
+  private readonly weaponEl: HTMLSpanElement;
+
   constructor(
+    info: HTMLDivElement,
     canvas: HTMLCanvasElement,
     width: number,
     height: number,
@@ -29,6 +34,10 @@ export default class Display {
     this.buffer.canvas.height = height;
 
     this.ctx.imageSmoothingEnabled = false;
+
+    this.scoreEl = info.querySelector('.score')!;
+    this.healthEl = info.querySelector('.health')!;
+    this.weaponEl = info.querySelector('.current-weapon')!;
   }
 
   clear() {
@@ -81,5 +90,24 @@ export default class Display {
 
   render() {
     this.ctx.drawImage(this.buffer.canvas, 0, 0);
+  }
+
+  updateScore(score: number) {
+    let scoreStr = score.toString();
+    const zerosCount = 6 - scoreStr.length;
+
+    for (let i = 0; i < zerosCount; i++) {
+      scoreStr = '0' + scoreStr;
+    }
+
+    this.scoreEl.textContent = scoreStr;
+  }
+
+  updateHealth(health: number) {
+    this.healthEl.textContent = health.toString();
+  }
+
+  updateWeapon(currentWeapon: weapon) {
+    this.weaponEl.textContent = currentWeapon;
   }
 }

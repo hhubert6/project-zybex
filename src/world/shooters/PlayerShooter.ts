@@ -11,6 +11,8 @@ import {
   weapon,
 } from './shooter';
 
+const getKey = (pos: Vector) => `${pos[0]}.${pos[1]}`;
+
 export class PlayerShooter extends Shooter {
   private fireCounter = 0;
 
@@ -44,13 +46,21 @@ export class PlayerShooter extends Shooter {
     }
   }
 
-  refire(bullets: bullet[]) {
-    for (let i = 0; i < bullets.length; i++) {
+  refire() {
+    const repetitions: string[] = [];
+
+    for (let i = 0; i < this.bulletsPool.length; i++) {
+      const key = getKey(this.bulletsPool[i].pos);
+
+      if (repetitions.includes(key)) continue;
+
+      repetitions.push(key);
+
       this.fire(
-        bullets[i].velocity,
-        bullets[i].dimensions,
-        bullets[i].weapon!,
-        bullets[i].type!,
+        this.bulletsPool[i].velocity,
+        this.bulletsPool[i].dimensions,
+        this.bulletsPool[i].weapon!,
+        this.bulletsPool[i].type!,
       );
     }
   }
@@ -118,7 +128,7 @@ export class PlayerShooter extends Shooter {
 
     this.fire(
       [PLAYER_BULLET_SPEED, 0],
-      [6, 25 + (level > 1 ? 10 : 0)],
+      [6, 20 + (level > 1 ? 10 : 0)],
       weapon.PULSE,
       bulletType.PRIMARY,
     );
@@ -169,6 +179,7 @@ export class PlayerShooter extends Shooter {
       ? this.srcPos[0] + this.dimensions[0] / 2
       : this.srcPos[0] + this.dimensions[0] / 2 - dimensions[0] / 2;
     const posY = getCenterPos(this.srcPos[1], this.dimensions[1], dimensions[1]);
+    const power = 0;
 
     if (b) {
       b.pos[0] = posX - (type === bulletType.SECONDARY ? 10 : 0);
@@ -181,6 +192,8 @@ export class PlayerShooter extends Shooter {
       b.dimensions[1] = dimensions[1];
 
       b.striked = false;
+      b.power = power;
+
       b.weapon = weaponType;
       b.type = type;
     } else {
@@ -189,6 +202,7 @@ export class PlayerShooter extends Shooter {
         velocity,
         dimensions,
         striked: false,
+        power,
         weapon: weaponType,
         type,
       };

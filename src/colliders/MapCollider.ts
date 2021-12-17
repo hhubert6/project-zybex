@@ -1,24 +1,31 @@
 import { Vector } from '../vector';
-import { mapElement, mapElementType, mapElementTypes } from '../world/map';
+import { mapElement, mapElementTypes } from '../world/map';
 import { getBoundings, Moveable } from '../world/Moveable';
+import { bullet } from '../world/shooters/shooter';
 
 export default class MapCollider {
   constructor(private mapElementTypes: mapElementTypes) {}
 
-  collide(player: Moveable, mapObjects: mapElement[]): boolean {
-    let collisionDetected = false;
+  collideBullets(bullets: bullet[], mapObject: mapElement[]) {
+    for (let i = 0; i < bullets.length; i++) {
+      this.collideObject(bullets[i], mapObject);
+    }
+  }
 
+  collideObject(obj: Moveable, mapObjects: mapElement[]): boolean {
     for (let i = 0; i < mapObjects.length; i++) {
-      if (this.collideObject(player, mapObjects[i])) {
-        collisionDetected = true;
-        break;
+      if (this.collideObjects(obj, mapObjects[i])) {
+        if (obj.hasOwnProperty('striked')) {
+          (obj as bullet).striked = true;
+        }
+        return true;
       }
     }
 
-    return collisionDetected;
+    return false;
   }
 
-  private collideObject(player: Moveable, { type, pos }: mapElement): boolean {
+  private collideObjects(player: Moveable, { type, pos }: mapElement): boolean {
     if (type === 'ground') return false;
     const object: Moveable = {
       pos: pos as Vector,

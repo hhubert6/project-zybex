@@ -1,4 +1,5 @@
 import { Vector } from '../../vector';
+import { Moveable } from '../Moveable';
 
 export const ENEMY_BULLET_SPEED = 3;
 export const PLAYER_BULLET_SPEED = 6;
@@ -19,14 +20,23 @@ export enum bulletType {
   TERTIARY,
 }
 
-export interface bullet {
+export interface bullet extends Moveable {
   pos: Vector;
   velocity: Vector;
   dimensions: Vector;
   striked: boolean;
+  power: number;
   weapon?: weapon;
   type?: bulletType;
 }
+
+export const bulletPower = {
+  [weapon.ORBIT]: 1,
+  [weapon.WAY]: 2,
+  [weapon.GUN]: 4,
+  [weapon.PULSE]: 1,
+  [weapon.WALL]: 1,
+};
 
 export const getCenterPos = (outerPos: number, outerDim: number, innerDim: number) =>
   outerPos + outerDim / 2 - innerDim / 2;
@@ -40,8 +50,6 @@ export abstract class Shooter {
     protected bullets: bullet[],
     protected bulletsPool: bullet[],
   ) {}
-
-  abstract start(...args: any[]): void;
 
   protected abstract fire(...args: any[]): void;
 }

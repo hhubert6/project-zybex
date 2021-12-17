@@ -7,29 +7,43 @@ import { PlayerShooter } from './shooters/PlayerShooter';
 export const PLAYER_WIDTH = 20;
 export const PLAYER_HEIGHT = 20;
 
+enum animation {
+  NONE = 0,
+  EMERGING = 1,
+  DYING = 2,
+}
 export default class Player implements Moveable {
+  timeCounter = 0;
   color = '#dddddd';
+  animation: animation = animation.EMERGING;
+
   velocity: Vector = [0, 0];
   readonly dimensions: Vector = [PLAYER_WIDTH, PLAYER_HEIGHT];
+
+  transparent = false;
   colliding = false;
   health = 5;
   levels: Record<weapon, number> = {
-    [weapon.ORBIT]: 1,
-    [weapon.WAY]: 0,
-    [weapon.GUN]: 0,
+    [weapon.ORBIT]: 4,
+    [weapon.WAY]: 1,
+    [weapon.GUN]: 1,
     [weapon.PULSE]: 1,
-    [weapon.WALL]: 0,
+    [weapon.WALL]: 1,
   };
+
   bullets: bullet[] = [];
-  currentWeapon: weapon = weapon.ORBIT;
+  bulletsPool: bullet[] = [];
+  currentWeapon: weapon = weapon.GUN;
   readonly shooter: PlayerShooter;
 
-  constructor(public pos: Vector, bulletsPool: bullet[]) {
+  onChange: (type: string, data: any) => void = () => null;
+
+  constructor(public pos: Vector) {
     this.shooter = new PlayerShooter(
       this.pos,
       this.dimensions,
       this.bullets,
-      bulletsPool,
+      this.bulletsPool,
     );
 
     this.shooter.start(this.currentWeapon, this.levels[this.currentWeapon]);
@@ -51,12 +65,55 @@ export default class Player implements Moveable {
     this.velocity[1] = 2.1;
   }
 
-  update(bulletsPool: bullet[]) {
-    this.updateBullets(bulletsPool);
+  update() {
+    if (this.colliding) return this.die();
+    if (this.animation === animation.DYING) return this.updateDie();
+    else if (this.transparent) this.updateTransparent();
+    if (this.animation === animation.EMERGING) this.updateEmerge();
+
+    this.updateBullets();
 
     this.pos[0] += this.velocity[0];
     this.pos[1] += this.velocity[1];
-    this.color = this.colliding ? '#ff0000' : '#dddddd';
+  }
+
+  private die() {
+    this.color = '#ff0000';
+    this.health--;
+    this.colliding = false;
+    this.transparent = true;
+    this.animation = animation.DYING;
+    this.clearBullets();
+    this.onChange('health', this.health);
+  }
+
+  private updateEmerge() {
+    this.pos[0] += 1;
+    if (this.pos[0] >= PLAYER_WIDTH / 2) {
+      this.animation = animation.NONE;
+    }
+  }
+
+  private updateDie() {
+    this.timeCounter++;
+
+    if (this.timeCounter >= 120) {
+      this.timeCounter = 0;
+      this.pos[0] = -PLAYER_WIDTH;
+      this.animation = animation.EMERGING;
+      this.color = '#aaaaaa';
+      this.shooter.start(this.currentWeapon, this.levels[this.currentWeapon]);
+    }
+  }
+
+  private updateTransparent() {
+    this.timeCounter++;
+
+    if (this.timeCounter >= 180) {
+      this.timeCounter = 0;
+      this.transparent = false;
+      this.color = '#dddddd';
+    }
   }
 
   changeWeapon() {
@@ -74,9 +131,10 @@ export default class Player implements Moveable {
     this.currentWeapon = weapons[newIndex] as weapon;
 
     this.shooter.start(this.currentWeapon, this.levels[this.currentWeapon]);
+    this.onChange('weapon', this.currentWeapon);
   }
 
-  private updateBullets(bulletsPool: bullet[]) {
+  private updateBullets() {
     if (this.currentWeapon === weapon.ORBIT)
       this.shooter.handleOrbit(this.levels[this.currentWeapon]);
 
@@ -86,7 +144,6 @@ export default class Player implements Moveable {
     }
 
     const removalIndices = [];
-    const refireBullets = [];
 
     for (let i = 0; i < this.bullets.length; i++) {
       if (
@@ -97,15 +154,14 @@ export default class Player implements Moveable {
         this.bullets[i].pos[1] > WORLD_HEIGHT
       ) {
         removalIndices.push(i);
-        refireBullets.push(this.bullets[i]);
       }
     }
 
     while (removalIndices.length) {
-      bulletsPool.push(...this.bullets.splice(removalIndices.pop()!, 1));
+      this.bulletsPool.push(...this.bullets.splice(removalIndices.pop()!, 1));
     }
 
-    this.shooter.refire(refireBullets);
+    this.shooter.refire();
   }
 
   private clearBullets() {

@@ -23,14 +23,14 @@ export class EnemyShooter extends Shooter {
     if (this.delay) this.timeCounter = this.delay;
   }
 
-  start() {
+  update() {
     if (!this.delay) return;
 
     this.timeCounter++;
 
     if (this.timeCounter >= this.delay) {
       this.timeCounter = 0;
-      this.fire();
+      // this.fire();
     }
   }
 
@@ -59,6 +59,7 @@ export class EnemyShooter extends Shooter {
         velocity: [-ENEMY_BULLET_SPEED, 0],
         dimensions: [4, 4],
         striked: false,
+        power: 1,
       };
     }
 

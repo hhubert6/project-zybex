@@ -9,7 +9,7 @@
     <style>
       :root {
         --canvas-width: 320px;
-        --canvas-height: 192px;
+        --canvas-height: 175px;
       }
       * {
         box-sizing: border-box;
@@ -24,25 +24,49 @@
         height: 100vh;
       }
 
-      canvas {
-        /* border: 1px solid #eee; */
-        object-fit: contain;
-        /* height: 80%;
-        width: auto; */
-        height: var(--canvas-height);
+      .container {
+        height: 60%;
+        width: auto;
+        /* height: var(--canvas-height);
         width: var(--canvas-width);
-        transform: scale(3);
+        transform: scale(2); */
+        display: flex;
+        flex-direction: column;
+        color: #fff;
       }
 
-      /* @media screen and (max-aspect-ratio: 320 / 192) {
-        canvas {
+      canvas {
+        width: 100%;
+        height: 100%;
+      }
+
+      .score-info {
+        font-size: 2rem;
+        letter-spacing: 4px;
+        word-spacing: 10px;
+      }
+
+      .current-weapon {
+        text-transform: uppercase;
+      }
+
+      @media screen and (max-aspect-ratio: 320 / 192) {
+        .container {
           height: auto;
-          width: 80%;
+          width: 60%;
         }
-      } */
+      }
     </style>
   </head>
   <body>
-    <canvas></canvas>
+    <div class="container">
+      <canvas></canvas>
+      <div class="score-info">
+        <span>1P</span>
+        <span class="score">000000</span>
+        <span class="health">5</span>
+        <span class="current-weapon">orbit</span>
+      </div>
+    </div>
   </body>
 </html>

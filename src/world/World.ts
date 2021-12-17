@@ -1,5 +1,5 @@
 import { Vector } from '../vector';
-import Player, { PLAYER_HEIGHT } from './Player';
+import Player, { PLAYER_HEIGHT, PLAYER_WIDTH } from './Player';
 import { map, mapElement, mapElementTypes } from './map';
 import SpatialHashArray from '../SpatialHashArray';
 import { enemies, enemy, Enemy, enemyTypes } from './enemies';
@@ -27,10 +27,7 @@ export default class World {
   bulletsPool: bullet[] = [];
 
   constructor(map: map, enemies: enemies) {
-    this.player = new Player(
-      [WORLD_WIDTH / 5, WORLD_HEIGHT / 2 - PLAYER_HEIGHT / 2],
-      this.bulletsPool,
-    );
+    this.player = new Player([-PLAYER_WIDTH, WORLD_HEIGHT / 2 - PLAYER_HEIGHT / 2]);
 
     this.mapHashArray = new SpatialHashArray(40, Math.ceil(map.width / 40));
     this.mapElementTypes = map.types;
@@ -89,7 +86,7 @@ export default class World {
     this.removeFinishedEnemies();
 
     for (let i = 0; i < this.currentEnemies.length; i++) {
-      this.currentEnemies[i].update(this.enemiesBullets, this.bulletsPool);
+      this.currentEnemies[i].update();
     }
   }
 
@@ -117,6 +114,8 @@ export default class World {
   }
 
   collidePlayer(object: Player) {
+    if (object.animation) return;
+
     if (object.pos[0] <= 0) {
       object.pos[0] = 0;
       object.velocity[0] = 0;

@@ -29,7 +29,9 @@ export class Enemy implements Moveable {
   dimensions: Vector;
   velocity: Vector = [0, 0];
   finished = false;
-  private health = 4;
+  striked = 0; // number of hits
+  dying = false;
+  private health = 1;
   private timeCounter = 0;
   private moveStage = 1;
   readonly shooter: EnemyShooter;
@@ -72,7 +74,7 @@ export class Enemy implements Moveable {
     this.dimensions = type.dimensions as Vector;
 
     (this.velocity[0] = 0), (this.velocity[1] = 0);
-    this.health = 4;
+    this.health = 1;
     this.finished = false;
     this.timeCounter = 0;
     this.moveStage = 1;
@@ -83,6 +85,7 @@ export class Enemy implements Moveable {
   private setupByType() {
     switch (this.typeName) {
       case 'square-spinner':
+        this.health = 2;
         switch (this.behaviour) {
           case 1:
             this.velocity[0] = -0.9;
@@ -100,6 +103,7 @@ export class Enemy implements Moveable {
         break;
 
       case 'ship-spinner':
+        this.health = 2;
         switch (this.behaviour) {
           case 1:
             this.velocity[0] = -3;
@@ -118,8 +122,15 @@ export class Enemy implements Moveable {
     }
   }
 
-  update(bullets: bullet[], bulletsPool: bullet[]) {
-    this.shooter.start();
+  update() {
+    if (this.striked) {
+      this.health -= this.striked;
+      this.striked = 0;
+      if (this.health <= 0) this.die();
+    }
+    if (this.dying) return this.updateDie();
+
+    this.shooter.update();
 
     switch (this.typeName) {
       case 'ship-spinner':
@@ -129,12 +140,24 @@ export class Enemy implements Moveable {
 
     this.pos[0] += this.velocity[0];
     this.pos[1] += this.velocity[1];
+  }
 
+  private die() {
+    this.dying = true;
+  }
+
+  private updateDie() {
     this.timeCounter++;
+
+    if (this.timeCounter >= 60) {
+      this.dying = false;
+      this.finished = true;
+    }
   }
 
   private updateShipSpinner() {
     if (this.behaviour === 2 || this.behaviour === 3) return;
+    this.timeCounter++;
 
     if (this.moveStage === 1 && this.pos[0] <= 320 - this.dimensions[0] - 1) {
       this.velocity[0] = 0;
@@ -143,6 +166,7 @@ export class Enemy implements Moveable {
 
     if (this.timeCounter === 60 * 5) {
       this.velocity[0] = -3;
+      this.timeCounter = 0;
     }
   }
 }
