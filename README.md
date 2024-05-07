@@ -1,2 +1,2 @@
 # project-zybex
-Semester project for mr. Mendela's classes.
+Semester project for Client Applications classes (upper secondary school).
